@@ -99,6 +99,31 @@ public class Func{
         return m.cols - 1;
     }
 
+    /* OPERASI BARIS ELEMENTER */
+    // parameter row, BUKAN idx row
+    public static void multiplyOBE(Matrix m, int row, double multiplier){
+        int j;
+        for (j = 0; j <= getLastIdxCol(m); j++){
+            double newElmt = getElmt(m, row - 1, j) * multiplier;
+            setElmt(m, row - 1, j, newElmt);
+        }
+    }
+
+    public static void switchOBE(Matrix m, int row1, int row2){
+        double[] temp = m.contents[row1 - 1];
+        m.contents[row1 - 1] = m.contents[row2 - 1];
+        m.contents[row2 - 1] = temp;
+    }
+
+    public static void addOBE(Matrix m, int row1, int row2, double multiplier){
+        int j;
+        double addedVal;
+        for (j = 0; j <= getLastIdxCol(m); j++){
+            addedVal = getElmt(m, row2 - 1, j) * multiplier;
+            setElmt(m, row1 - 1, j, getElmt(m, row1 - 1, j) + addedVal);
+        }
+    }
+
     /* VALIDASI */
     public static boolean isSizeEqual(Matrix m1, Matrix m2){
         return ((m1.rows == m2.rows) && (m1.cols == m2.cols)); 
@@ -125,7 +150,7 @@ public class Func{
         return (m.rows == m.cols);
     }
 
-    /* MANIPULASI MATRIX */
+    /* MANIPULASI MATRIX LAINNYA */
     public static Matrix add(Matrix m1, Matrix m2){
         Matrix m3 = new Matrix(m1.rows, m1.cols);
         int i, j;
