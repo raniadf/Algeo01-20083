@@ -151,6 +151,14 @@ public class Func{
             setElmt(m, row - 1, j, newElmt);
         }
     }
+    
+    public static void divideOBE(Matrix m, int row, double divider) {
+        int j;
+        for (j = 0; j <= getLastIdxCol(m); j++) {
+            double newElmt = getElmt(m, row - 1, j) / divider;
+            setElmt(m, row - 1, j, newElmt);
+        }
+    }
 
     public static void switchOBE(Matrix m, int row1, int row2){
         double[] temp = m.contents[row1 - 1];
