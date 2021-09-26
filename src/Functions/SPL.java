@@ -45,7 +45,7 @@ public class SPL {
                     int OtherRows = i + 1;
                     while (OtherRows < RowCount) {
                         Factor = A[OtherRows][j];
-                        addOBE(A, OtherRows, i, ((-1) * Factor));
+                        addOBE(A, OtherRows + 1, i + 1, ((-1) * Factor));
                         ++OtherRows;
                     }
 
@@ -79,7 +79,7 @@ public class SPL {
                     int OtherRows = i - 1;
                     while (OtherRows >= 0) {
                         Factor = A[OtherRows][j];
-                        addOBE(A, OtherRows, i, ((-1) * Factor));
+                        addOBE(A, OtherRows + 1, i + 1, ((-1) * Factor));
                         --OtherRows;
                     }
                 }
