@@ -322,10 +322,16 @@ public class Func{
     }
 
     /* OPERASI LAINNYA */
+    /**
+     * Mengembalikan banyaknya elemen pada matriks
+     * */
     public static int nbElmt(Matrix m){
         return (m.rows * m.cols);
     }
 
+    /**
+     * Mengembalikan matriks minor
+     * */
     public static Matrix makeMinor(Matrix m, int rowAcuan, int colAcuan){
         Matrix minor;
         int x, y, i, j;
@@ -353,5 +359,55 @@ public class Func{
             }
         }
         return minor;
+    }
+
+    /**
+     * Mengubah matriks pemanggil menjadi matriks segitiga atas
+     * dan mengembalikan banyaknya proses pertukaran baris pada prosesnya
+     * */
+    public static int makeSgtgAtas(Matrix m) {
+        int i, j, switchCount = 0;
+
+        // i nandain baris yang sedang diproses
+        for (i = 0; i < m.rows; i++) {
+            double pivot = getElmt(m, i, i),
+                   tempPivot = pivot, // Pivot yang digunakan ketika mencari pivot tidak 0
+                   firstElmt, // Elemen pertama tiap baris
+                   constant; // Konstanta pengali matriks
+
+            // Mencari pivot sampai pivot tidak 0
+            int z = i; // iterator pencarian pivot tidak 0
+            for (; z < m.rows && tempPivot == 0; ++z) {
+                tempPivot = getElmt(m, z, i);
+            }
+
+            // Jika setelah dicari, pivot masih 0, lewati baris yang sedang
+            // diproses
+            if (tempPivot == 0) {
+                continue;
+            // Jika ditemukan pivot tidak 0, tukar dengan baris yang sedang
+            // diproses
+            } else if (pivot == 0 && tempPivot != 0) {
+                pivot = tempPivot;
+                switchCount++;
+                switchOBE(m, i, --z);
+            }
+
+            // Setelah selesai pencarian pivot tidak 0,
+            // kalikan semua elemen di matriks dengan pembuat 1 atau inverse
+            // pivot
+            //this.kaliBaris(i, 1/pivot); // Ternyata ini butuhnya kalo mau bikin Gauss
+
+            // Setelah dikali pivot, 0-kan semua elemen yang sekolom dan di
+            // bawah pivot
+            for (j = i + 1; j < m.rows; ++j) {
+                firstElmt = getElmt(m, j, i);
+                constant = -1 * firstElmt / pivot;
+
+                addOBE(m, j, i, constant);
+            }
+        }
+
+        return switchCount;
     }
 }
