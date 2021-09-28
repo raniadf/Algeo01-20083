@@ -1,11 +1,13 @@
 package src.Functions;
 import javax.swing.JOptionPane;
+import java.text.DecimalFormat;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.lang.String;
+
 
 public class Func{
     /* READ-WRITE FILES & DISPLAY RESULT */
@@ -95,8 +97,8 @@ public class Func{
         Matrix matrix = new Matrix(m, n);
         String str;
         int i, j;
-        for (i = 0; i <= getLastIdxRow(matrix); i++){
-            for (j = 0; j <= getLastIdxCol(matrix); j++){
+        for (i = 0; i < m; i++){
+            for (j = 0; j < n; j++){
                 while(true){
                     if (inputType == "Regresi"){
                         if (j == getLastIdxCol(matrix)){
@@ -108,7 +110,7 @@ public class Func{
                         if (str == null){
                             Interface.user();
                         }
-                        else if (str.matches("[0-9.]*") && !str.contains(" ")){
+                        else if (str.matches("[0-9.-]*") && !str.contains(" ")){
                             break;
                         }
                     }
@@ -117,7 +119,7 @@ public class Func{
                         if (str == null){
                             Interface.user();
                         }
-                        else if (str.matches("[0-9.]*") && !str.contains(" ")){
+                        else if (str.matches("[0-9.-]*") && !str.contains(" ")){
                             break;
                         }
                     }
@@ -168,16 +170,17 @@ public class Func{
 
     public static void writeMatrix(Matrix m){
         String filename = JOptionPane.showInputDialog(null, "Save file name as ______.txt (fill in d'blankz)", JOptionPane.PLAIN_MESSAGE);
+        DecimalFormat df = new DecimalFormat("####0.00");
         try {
             FileWriter writer = new FileWriter(".\\test\\" + filename + ".txt");
             int i, j;
             for (i = 0; i <= getLastIdxRow(m); i++){
                 for (j = 0; j <= getLastIdxCol(m); j++) {
                     if (j != getLastIdxCol(m)){
-                        writer.write(getElmt(m, i, j) + " ");
+                        writer.write(df.format(getElmt(m, i, j)) + " ");
                     }
                     else{
-                        writer.write(String.valueOf(getElmt(m, i, j)));
+                        writer.write(String.valueOf(df.format(getElmt(m, i, j))));
                     }
                 }
                 writer.write("\n");
@@ -191,14 +194,15 @@ public class Func{
     }
 
     public static void displayMatrix(Matrix m){
+        DecimalFormat df = new DecimalFormat("####0.00");
         int i, j;
         for (i = 0; i <= getLastIdxRow(m); i++){
             for (j = 0; j <= getLastIdxCol(m); j++) {
                 if (j != getLastIdxCol(m)){
-                    System.out.print(getElmt(m, i, j) + " ");
+                    System.out.print(df.format(getElmt(m, i, j)) + " ");
                 }
                 else{
-                    System.out.print(getElmt(m, i, j));
+                    System.out.print(df.format(getElmt(m, i, j)));
                 }
             }
             System.out.print("\n");
@@ -282,6 +286,17 @@ public class Func{
     }
 
     /* MANIPULASI MATRIX LAINNYA */
+    public static Matrix copyMatrix(Matrix m){
+        Matrix copy = new Matrix(m.rows, m.cols);
+        int i, j;
+        for (i = 0; i < m.rows; i++){
+            for (j = 0; j < m.cols; j++){
+                setElmt(copy, i, j, getElmt(m, i, j));
+            }
+        }
+        return copy;
+    }
+    
     public static Matrix add(Matrix m1, Matrix m2){
         Matrix m3 = new Matrix(m1.rows, m1.cols);
         int i, j;
