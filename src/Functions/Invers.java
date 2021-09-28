@@ -30,7 +30,7 @@ public class Invers {
                 Func.setElmt(b, i, 0, Func.getElmt(m, i, Func.getLastIdxCol(m)));
             }
 
-        //inverse(A);
+        adjoin(A); // Invers matriks A dengan metode adjoin
         var = Func.multiply(A, b);
 
         for (i = 0; i <= Func.getLastIdxRow(var); i++){

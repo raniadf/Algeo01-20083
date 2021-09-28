@@ -104,10 +104,10 @@ public class Interface {
             }
             switch (optionInv){
             case 1:
-                //inv.Gauss
+                m = Invers.gaussJordan(m);
                 break;
             case 2:
-                //inv.adjoin
+                m = Invers.adjoin(m);
                 break;
             }
             break;
