@@ -205,7 +205,7 @@ public class Func{
         }
     }
 
-    /* GET & SET */
+    /* SELEKTOR: GET & SET */
     public static double getElmt(Matrix m, int i, int j){
         return m.contents[i][j];
     }
@@ -319,5 +319,10 @@ public class Func{
             }
         }
         return m3;
+    }
+
+    /* OPERASI LAINNYA */
+    public static int nbElmt(Matrix m){
+        return (m.rows * m.cols);
     }
 }
