@@ -1,50 +1,128 @@
 package src.Functions;
 import javax.swing.JOptionPane;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.io.FileWriter;
 import java.io.FileReader;
-import java.util.Scanner;
 import java.lang.String;
-
-
 
 public class Func{
     /* READ-WRITE FILES & DISPLAY RESULT */
     public static Matrix inputMatrix(String inputType){
-        Scanner input = new Scanner(System.in);
         int m, n;
+        String strm, strn;
 
         if (inputType == "SPL"){
-            System.out.print("Enter number of rows: ");
-            m = input.nextInt();
-            System.out.print("Enter number of columns: ");
-            n = input.nextInt();
+            while(true){
+                strm = JOptionPane.showInputDialog(null, "Enter number of rows: ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
+                if (strm == null){
+                    Interface.user();
+                }
+                else if (!strm.matches("[0-9]*") || strm.contains(" ")){
+                    continue;
+                }
+                strn = JOptionPane.showInputDialog(null, "Enter number of columns: ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
+                if (strn == null){
+                    Interface.user();
+                }
+                else if (!strm.matches("[0-9]*") || strm.contains(" ")){
+                    continue;
+                }
+                else{
+                    break;
+                }
+            }
+            m = Integer.parseInt(strm);
+            n = Integer.parseInt(strn);
         }
         else if (inputType == "Determinan" || inputType == "Invers"){
-            System.out.print("Enter size of matrix (NxN): ");
-            m = input.nextInt();
+            while(true){
+                strm = JOptionPane.showInputDialog(null, "Enter size of matrix (n x n): ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
+                if (strm == null){
+                    Interface.user();
+                }
+                else if (!strm.matches("[0-9]*") || strm.contains(" ")){
+                    continue;
+                }
+                else{
+                    break;
+                }
+            }
+            m = Integer.parseInt(strm);
             n = m;
         }
         else if (inputType == "Interpolasi"){
-            System.out.print("Enter number of points: ");
-            m = input.nextInt();
+            while(true){
+                strm = JOptionPane.showInputDialog(null, "Enter number of points: ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
+                if (strm == null){
+                    Interface.user();
+                }
+                else if (!strm.matches("[0-9]*") || strm.contains(" ")){
+                    continue;
+                }
+                else{
+                    break;
+                }
+            }
+            m = Integer.parseInt(strm);
             n = 2;
         }
-        else{ // INI BENERIN BUAT REGRESI!!!
-            m = 2;
-            n = 2;
+        else{
+            while(true){
+                strm = JOptionPane.showInputDialog(null, "Enter banyak data: ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
+                if (strm == null){
+                    Interface.user();
+                }
+                else if (!strm.matches("[0-9]*") || strm.contains(" ")){
+                    continue;
+                }
+                strn = JOptionPane.showInputDialog(null, "Enter banyak variabel peubah: ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
+                if (strn == null){
+                    Interface.user();
+                }
+                else if (!strm.matches("[0-9]*") || strm.contains(" ")){
+                    continue;
+                }
+                else{
+                    break;
+                }
+            }
+            m = Integer.parseInt(strm);
+            n = Integer.parseInt(strn);
         }
 
         Matrix matrix = new Matrix(m, n);
-
+        String str;
         int i, j;
         for (i = 0; i <= getLastIdxRow(matrix); i++){
             for (j = 0; j <= getLastIdxCol(matrix); j++){
-                System.out.print("Enter elemen matrix pada posisi (" + i + ", " + j + "): ");
-                double elmt = input.nextDouble();
+                while(true){
+                    if (inputType == "Regresi"){
+                        if (j == getLastIdxCol(matrix)){
+                            str = JOptionPane.showInputDialog(null, "Data ke-" + (i+1) + "\nEnter y: ", "Input Matrix", JOptionPane.PLAIN_MESSAGE); 
+                        }
+                        else{
+                            str = JOptionPane.showInputDialog(null, "Data ke-" + (i+1) + "\nEnter x" + (j+1) + ": ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
+                        }
+                        if (str == null){
+                            Interface.user();
+                        }
+                        else if (str.matches("[0-9.]*") && !str.contains(" ")){
+                            break;
+                        }
+                    }
+                    else{
+                        str = JOptionPane.showInputDialog(null, "Enter elemen matrix pada posisi (" + (i+1) + ", " + (j+1) + "): ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
+                        if (str == null){
+                            Interface.user();
+                        }
+                        else if (str.matches("[0-9.]*") && !str.contains(" ")){
+                            break;
+                        }
+                    }
+                }
+                double elmt = Double.parseDouble(str);
                 setElmt(matrix, i, j, elmt);
             }
         }
@@ -52,7 +130,7 @@ public class Func{
     }
 
     public static Matrix readMatrix(){
-        String filename = JOptionPane.showInputDialog(null, "Enter filename:");
+        String filename = JOptionPane.showInputDialog(null, "Enter filename:", "Read File", JOptionPane.PLAIN_MESSAGE);
         try {
             ArrayList<String> num = new ArrayList<String>();
             int rowcount = 0, colcount = 0;
@@ -79,15 +157,17 @@ public class Func{
             }
             return m;
         }
-        catch (IOException ie) {
-            System.out.println("Oops.. Seems like we couldn't read your file.");
-            ie.printStackTrace();
+        catch (Exception ie) {
+            JOptionPane.showMessageDialog(null, "Oops! Seems like we couldn't read your file.", "Uh-Oh...", JOptionPane.ERROR_MESSAGE);
+            //ie.printStackTrace();
             Matrix m = new Matrix(0,0);
+            Interface.user();
             return m;
         }
     }
 
-    public static void writeMatrix(String filename, Matrix m){
+    public static void writeMatrix(Matrix m){
+        String filename = JOptionPane.showInputDialog(null, "Save file name as ______.txt (fill in d'blankz)", JOptionPane.PLAIN_MESSAGE);
         try {
             FileWriter writer = new FileWriter(".\\test\\" + filename + ".txt");
             int i, j;
@@ -103,9 +183,9 @@ public class Func{
                 writer.write("\n");
             }        
             writer.close();
-            System.out.println("Successfully wrote to the file.");
+            JOptionPane.showMessageDialog(null, "Save berhasil!", "File Saved", JOptionPane.PLAIN_MESSAGE);
         } catch (IOException e) {
-            System.out.println("An error occurred.");
+            JOptionPane.showMessageDialog(null, "An error occured", "Uh-Oh...", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }
