@@ -1,12 +1,14 @@
 package src.Functions;
+import javax.swing.JOptionPane;
 
 public class Cramer {
     // belom bisa dipakekkk
     // tinggal fill in the comments aja... kalo gaada yg salah XD LOL bau2nya ada si LOL XD
-    public static void solveSPL(Matrix m){
+    public static Matrix solveSPL(Matrix m){
         if (m.rows != m.cols - 1){
-            System.out.println("Dibutuhkan " + (m.cols - 1) + " buah persamaan untuk " + (m.cols - 1) + " buah variabel");
-            return;
+            JOptionPane.showMessageDialog(null, "Dibutuhkan " + (m.cols - 1) + " buah persamaan untuk " + (m.cols - 1) + " buah variabel", "Try again", JOptionPane.WARNING_MESSAGE);
+            Interface.user();
+            return m;
         }
         Matrix A = new Matrix(m.rows, m.cols - 1);
         Matrix b = new Matrix(m.rows, 1);
@@ -31,5 +33,6 @@ public class Cramer {
             // detTemp = Determinant(temp) cari determinannya
             //System.out.print("x" + (j+1) + " = " + (detTemp/detA) + "\n");
         }
+        return m;
     }
 }
