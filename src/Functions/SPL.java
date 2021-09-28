@@ -98,9 +98,9 @@ public class SPL {
     public static void SolveSPL(Matrix M, String SPLtype){
         
         // ASSIGN MATRIX
-        if (SPLtype = "Gauss"){
+        if (SPLtype == "Gauss"){
             M = Gauss(M);
-        } else if (SPLtype = "Gauss Jordan"){
+        } else if (SPLtype == "Gauss Jordan"){
             M = GaussJordan(M);
         }
 
@@ -181,7 +181,7 @@ public class SPL {
                     solution[col] = Func.getElmt(M, row, M.cols-1);
                     continue;
                 }
-                solution[col] = Func.getElmt(M, rows, M.cols-1);
+                solution[col] = Func.getElmt(M, row, M.cols-1);
                 
                 for (j=col+1; j<M.cols; ++j){
                     solution[col] -= Func.getElmt(M, row, j)*solution[j];
@@ -195,9 +195,8 @@ public class SPL {
         } else if (foundSol && !unique) {
             // ADUH GATAU PARAMETRIK GIMANA
         }
-
-
     }
+}
     
 
     //     public static void SPLGauss(Matrix M) {
