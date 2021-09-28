@@ -425,4 +425,39 @@ public class Func{
         }
         return transposeMat;
     }
+
+    /**
+     * Mengembalikan matriks kofaktor
+     * */
+    public static Matrix makeCofactor(Matrix m) {
+        int i, j, itemp, jtemp, tempRow, tempCol;
+        Matrix cofactorMat = new Matrix(m.rows, m.cols);
+        
+        for (i = 0; i < m.rows; i++) {
+            for (j = 0; j < m.cols; j++)
+            {
+                Matrix temp = new Matrix(m.rows - 1, m.cols - 1);
+                tempRow = 0;
+                for (itemp = 0; itemp < m.rows; itemp++)
+                {
+                    tempCol = 0;
+                    for (jtemp = 0; jtemp < m.cols; jtemp++)
+                    {
+                        if (itemp != i && jtemp != j)
+                        {
+                            temp.contents[tempRow][tempCol] = m.contents[itemp][jtemp];
+                            tempCol++;
+                            if (tempCol == m.cols - 1) {
+                                tempRow++;
+                            }
+                        }
+                    }
+                    
+                }
+                cofactorMat.contents[i][j] = Math.pow(-1, i + j) * 
+                                             Determinant.rowRed(temp);
+            }
+        }
+        return cofactorMat;
+    }
 }
