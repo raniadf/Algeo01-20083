@@ -25,6 +25,7 @@ public class Interface {
         }
         
         Matrix m;
+        double hasilDet = 0;
         if (matrix == 1){
             m = Func.readMatrix();
         }
@@ -85,12 +86,13 @@ public class Interface {
             }
             switch (optionDet){
             case 1:
-                //det.Reduksi
+                hasilDet = Determinant.rowRed(m);
                 break;
             case 2:
-                //det.Kofak
+                hasilDet = Determinant.cofExp(m);
                 break;
             }
+            System.out.println("Determinan adalah: " + hasilDet);
             break;
         case 3:
             String optInv = "0";
@@ -127,7 +129,14 @@ public class Interface {
         int save = JOptionPane.YES_NO_OPTION;
         save = JOptionPane.showConfirmDialog(null, "Mau disave jadi file .txt ga hasilnya?", "Save File", save);
         if (save == JOptionPane.YES_OPTION){
+            if (option == 2){
+                Matrix temp = new Matrix(1,1);
+                Func.setElmt(temp, 0, 0, hasilDet);
+                Func.writeMatrix(temp);
+            }
+            else{
                 Func.writeMatrix(m);
+            }
         }
     }
 
