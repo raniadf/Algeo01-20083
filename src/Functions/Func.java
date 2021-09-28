@@ -325,4 +325,33 @@ public class Func{
     public static int nbElmt(Matrix m){
         return (m.rows * m.cols);
     }
+
+    public static Matrix makeMinor(Matrix m, int rowAcuan, int colAcuan){
+        Matrix minor;
+        int x, y, i, j;
+        minor = new Matrix(m.rows - 1, m.cols - 1);
+
+        // i untuk baris m; j untuk baris m
+        // x untuk baris minor; y untuk baris minor
+        x = 0; y = 0;
+        for (i = 0; i < m.rows; ++i) {
+            if (i == rowAcuan) {
+                // Elemen yang berada di baris rowAcuan di-skip
+                continue;
+            }
+            for (j = 0; j < m.cols; ++j) {
+                if (j == colAcuan) {
+                    // Elemen yang berada di kolom colAcuan di-skip
+                    continue;
+                }
+
+                setElmt(minor, x, y++, getElmt(m, i, j));
+                if (y == minor.cols) {
+                    y = 0;
+                    x++;
+                }
+            }
+        }
+        return minor;
+    }
 }
