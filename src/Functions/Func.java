@@ -410,4 +410,19 @@ public class Func{
 
         return switchCount;
     }
+
+    /**
+     * Mengembalikan matriks transpose
+     * */
+    public static Matrix transpose(Matrix m) {
+        int i, j;
+        Matrix transposeMat = new Matrix(m.cols, m.rows);
+
+        for (i = 0; i < m.rows; i++) {
+            for (j = 0; j < m.cols; j++) {
+                transposeMat.contents[j][i] = m.contents[i][j];
+            }
+        }
+        return transposeMat;
+    }
 }
