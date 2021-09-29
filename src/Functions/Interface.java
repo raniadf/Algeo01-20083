@@ -25,7 +25,7 @@ public class Interface {
         }
         
         Matrix m;
-        double hasilDet = 0;
+        double result = 0;
         if (matrix == 1){
             m = Func.readMatrix();
         }
@@ -50,6 +50,7 @@ public class Interface {
         switch (option){
         case 1:
             String optSPL = "0";
+            double[] resultSPL;
             int optionSPL = Integer.parseInt(optSPL);
             while (optionSPL != 1 && optionSPL != 2 && optionSPL != 3 && optionSPL != 4 && (optSPL != null || optSPL == "")){ 
                 optSPL = JOptionPane.showInputDialog(null, "SPL pake cara apa nih? \n 1. Metode Eliminasi Gauss \n 2. Metode Eliminasi Gauss-Jordan \n 3. Metode Matriks Balikan \n 4. Kaidah Cramer \n");
@@ -60,17 +61,24 @@ public class Interface {
             }
             switch (optionSPL){
             case 1:
-                // solve.Gauss
+                resultSPL = Cramer.solveSPL(m);// NANTI GANTI jadi result = solve.Gauss
                 break;
             case 2:
-                // solve.GaussJordan
+                resultSPL = Cramer.solveSPL(m);// NANTI GANTI jadi result = solve.GaussJordan
                 break;
             case 3:
-                m = Invers.solveSPL(m);
+                resultSPL = Cramer.solveSPL(m);// NANTI GANTI jadi result = Invers.solveSPL(m); 
                 break;
             case 4:
-                m = Cramer.solveSPL(m);
+                resultSPL = Cramer.solveSPL(m);
                 break;
+            default:
+                resultSPL = Cramer.solveSPL(m); // ini cm biar initialized aja 
+            }
+            m = new Matrix(resultSPL.length, 1);
+            int i;
+            for (i = 0; i < resultSPL.length; i++){
+                Func.setElmt(m, i, 0, resultSPL[i]);
             }
             break;
 
@@ -86,19 +94,19 @@ public class Interface {
             }
             switch (optionDet){
             case 1:
-                hasilDet = Determinant.rowRed(m);
+                result = Determinant.rowRed(m);
                 break;
             case 2:
-                hasilDet = Determinant.cofExp(m);
+                result = Determinant.cofExp(m);
                 break;
             }
-            System.out.println("Determinan adalah: " + hasilDet);
+            System.out.println("Determinan adalah: " + result);
             break;
         case 3:
             String optInv = "0";
             int optionInv = Integer.parseInt(optInv);
             while (optionInv != 1 && optionInv != 2 && (optInv != null || optInv == "")){ 
-                optInv = JOptionPane.showInputDialog(null, "Determinan pake cara apa nih? \n 1. Gauss-Jordan \n 2. Adjoin");
+                optInv = JOptionPane.showInputDialog(null, "Invers pake cara apa nih? \n 1. Gauss-Jordan \n 2. Adjoin");
                 optionInv = validasiParse(optInv, optionInv);
             }
             if (optInv == null){
@@ -114,14 +122,20 @@ public class Interface {
             }
             break;
         case 4:
-            String x = JOptionPane.showInputDialog(null, "Masukkan x yang akan ditaksir:");
+            String x;
+            while(true){
+                x = JOptionPane.showInputDialog(null, "Masukkan x yang akan ditaksir:");
+                if (x == null || x.matches("[0-9.-]*")){
+                    break;
+                }
+            }
             if (x == null){
                 return;
             }
-            Interpolasi.solveInterpolasi(m, Double.parseDouble(x));
+            result = Interpolasi.solveInterpolasi(m, Double.parseDouble(x));
             break;
         case 5:
-            //regresi.m
+            result = Regresi.solveRegresi(m);
             break;
         }
 
@@ -129,9 +143,9 @@ public class Interface {
         int save = JOptionPane.YES_NO_OPTION;
         save = JOptionPane.showConfirmDialog(null, "Mau disave jadi file .txt ga hasilnya?", "Save File", save);
         if (save == JOptionPane.YES_OPTION){
-            if (option == 2){
+            if (option == 2 || option == 4 || option == 5){
                 Matrix temp = new Matrix(1,1);
-                Func.setElmt(temp, 0, 0, hasilDet);
+                Func.setElmt(temp, 0, 0, result);
                 Func.writeMatrix(temp);
             }
             else{
