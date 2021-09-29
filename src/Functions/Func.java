@@ -352,7 +352,7 @@ public class Func{
         return m3;
     }
 
-    /* OPERASI LAINNYA */
+    /* FUNGSI-FUNGSI HELPER LAINNYA */
     /**
      * Mengembalikan banyaknya elemen pada matriks
      * */
@@ -423,11 +423,6 @@ public class Func{
                 switchCount++;
                 switchOBE(m, i, --z);
             }
-
-            // Setelah selesai pencarian pivot tidak 0,
-            // kalikan semua elemen di matriks dengan pembuat 1 atau inverse
-            // pivot
-            //this.kaliBaris(i, 1/pivot); // Ternyata ini butuhnya kalo mau bikin Gauss
 
             // Setelah dikali pivot, 0-kan semua elemen yang sekolom dan di
             // bawah pivot
