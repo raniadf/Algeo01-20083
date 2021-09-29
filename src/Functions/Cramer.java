@@ -3,11 +3,12 @@ import javax.swing.JOptionPane;
 import java.text.DecimalFormat;
 
 public class Cramer {
-    public static Matrix solveSPL(Matrix m){
+    public static double[] solveSPL(Matrix m){
+        double[] store = new double[m.cols - 1];
         if (m.rows != m.cols - 1){
             JOptionPane.showMessageDialog(null, "Dibutuhkan " + (m.cols - 1) + " buah persamaan untuk " + (m.cols - 1) + " buah variabel", "Try again", JOptionPane.WARNING_MESSAGE);
             Interface.user();
-            return m;
+            return store;
         }
         Matrix A = new Matrix(m.rows, m.cols - 1);
         Matrix b = new Matrix(m.rows, 1);
@@ -24,12 +25,10 @@ public class Cramer {
 
         double detA = Determinant.cofExp(A);
         if (detA == 0){
-            JOptionPane.showMessageDialog(null, "Determinan = 0!\nSistem tidak bisa diselesaikan dengan metode ini!", "Uh oh...", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Sistem tidak memiliki solusi atau tidak bisa diselesaikan dengan metode ini!", "DETERMINAN = 0", JOptionPane.WARNING_MESSAGE);
             Interface.user();
         }
-        System.out.println("\n");
-        System.out.println(detA);
-        System.out.println("\n");
+
         Matrix temp;
         for (j = 0; j <= Func.getLastIdxCol(A); j++){
             temp = Func.copyMatrix(A);
@@ -38,8 +37,9 @@ public class Cramer {
             }
             double detTemp = Determinant.cofExp(temp);
             DecimalFormat df = new DecimalFormat("####0.00");
-            System.out.print("x" + (j+1) + " = " + df.format((detTemp/detA)) + "\n");
+            System.out.print("x" + (j+1) + " = " + df.format(detTemp/detA) + "\n");
+            store[j] = detTemp/detA;
         }
-        return m;
+        return store;
     }
 }
