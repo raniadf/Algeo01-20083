@@ -84,6 +84,7 @@ public class Regresi {
 
         // Store values found through Gauss Elimination in array of double
         double result[] = new double[ab.cols];
+        ab = SPL.Gauss(ab);
         result = SPL.UniqueSPL(ab);
 
         // Print general equation
