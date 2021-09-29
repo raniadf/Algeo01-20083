@@ -1,6 +1,7 @@
 package src.Functions;
 
 import javax.swing.JOptionPane;
+import java.lang.Math;
 
 public class SPL {
 
@@ -143,13 +144,24 @@ public class SPL {
                 solution[columns] -= Func.getElmt(M, rows, j) * solution[j];
             }
         }
-
-        for (int i = 0; i < solution.length; i++) {
-            System.out.println("TES");
-            System.out.println(solution[i]);
-        }
-
         return solution;
+    }
+
+    public static char getLetter(int i) {
+        return (char) (i + 64);
+    }
+
+    public static boolean IdxValid(double[] checkIdx, int idx) {
+        boolean valid = false;
+        for (int i = 0; i < checkIdx.length; ++i) {
+            if (checkIdx[i] != 0) {
+                valid = false;
+            } else if (checkIdx[i] == idx) {
+                valid = false;
+            } else
+                valid = true;
+        }
+        return valid;
     }
 
     // Solve SPL
@@ -211,7 +223,8 @@ public class SPL {
         // PRINT SOLUTION
         // Case 1 : No Solution
         if (!foundSol) {
-            JOptionPane.showMessageDialog(null, "SPL tidak memiliki solusi.", "X Solution Bruv :'v", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "SPL tidak memiliki solusi.", "X Solution Bruv :'v",
+                    JOptionPane.WARNING_MESSAGE);
             solution = null;
         }
         // Case 2 : Unique Solution
@@ -226,8 +239,127 @@ public class SPL {
         }
         // Case 3 : Many Solution
         else if (foundSol && !unique) {
-            // ADUH GATAU PARAMETRIK GIMANA
-            JOptionPane.showMessageDialog(null, "Srry ini parametrik bruv.", "SUSAH :'v", JOptionPane.WARNING_MESSAGE);
+
+            // Create double array
+            double[] temp = new double[M.cols];
+            double[] idxElementUsed = new double[M.cols-1];
+
+            for (i = 0; i < M.cols - 1; ++i) {
+                idxElementUsed[i] = 0;
+            }
+            // Set index row to 0
+            int row = 0;
+
+            // Row looping while true
+            while (true) {
+                // Break the loop
+                if (row >= M.rows) {
+                    break;
+                }
+
+                // Case where row = all 0 -> end the loop
+                if (Func.findLeadingOne(M, row) == -1) {
+                    break;
+                }
+
+                // Index to count one
+                int countOne = 0;
+
+                // Store temp value per row
+                // Ex : 1 5 4 3 0 2 0 6 --> 1 1 1 1 0 1 0 1
+                for (int col = 0; col < M.cols; col++) {
+                    if (Func.getElmt(M, row, col) != 0) {
+                        temp[col] = 1;
+                        countOne++;
+                    } else
+                        temp[col] = 0;
+                }
+
+                // Find the first 1
+                int firstIdx = 0;
+                for (i = 0; i < temp.length; ++i) {
+                    if (temp[i] == 1) {
+                        firstIdx = i;
+                        break;
+                    }
+                }
+
+                // PRINT SOLUTION
+                // If countOne = 1 and firstidx != last column index -> solution[firstidx] =
+                // last column
+                boolean MainElmt = false;
+                if (countOne == 1 && firstIdx != (M.cols - 1)) {
+                    System.out.print("x" + (firstIdx + 1) + " = 0");
+                    System.out.println();
+                    if (IdxValid(idxElementUsed, firstIdx)) {
+                        idxElementUsed[firstIdx] = firstIdx;
+                    }
+                }
+
+                // Other case
+                if (countOne > 1) {
+                    // x.. = last column
+                    if (countOne == 2 && temp[temp.length - 1] == 1) {
+                        System.out.println("x" + (firstIdx + 1) + " = " + Func.getElmt(M, row, temp.length - 1));
+                        if (IdxValid(idxElementUsed, firstIdx)) {
+                            idxElementUsed[firstIdx] = firstIdx;
+                        }
+                    }
+
+                    else {
+                        MainElmt = false;
+
+                        for (i = 0; i < temp.length; ++i) {
+                            if (temp[i] == 0){
+                                continue;
+                            }
+
+                            if (i == firstIdx) {
+                                System.out.print("x" + (i + 1) + " = ");
+                                if (IdxValid(idxElementUsed, firstIdx)) {
+                                    idxElementUsed[firstIdx] = firstIdx;
+                                }
+                            }
+
+                            else if (i != firstIdx && temp[i] != 0 && MainElmt && i != M.cols - 1) {
+                                if (Func.getElmt(M, row, i) > 0) {
+                                    System.out.print(" - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1));
+                                } else {
+                                    System.out.print(" + " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1));
+                                }
+                            }
+
+                            else if (i != firstIdx && temp[i] != 0 && MainElmt && i == M.cols - 1) {
+                                if (Func.getElmt(M, row, i) < 0) {
+                                    System.out.print(" - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))));
+                                } else {
+                                    System.out.print(" + " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))));
+                                }
+                            }
+
+                            else if (!MainElmt && i != firstIdx && temp[i] != 0 && i!= M.cols-1) {
+                                if (Func.getElmt(M, row, i) > 0) {
+                                    System.out.print(" - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1));
+                                } else {
+                                    System.out.print(String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1));
+                                }
+                                MainElmt = true;
+                            }
+
+                        }
+                        System.out.println();
+                    }
+                }
+
+                ++row;
+            }
+
+            for (i = 1; i<idxElementUsed.length; i++){
+                if (idxElementUsed[i]==0){
+                    System.out.println("x" + (i + 1) + " = " + getLetter(i));
+                }
+            }
+
             solution = null;
         }
 
