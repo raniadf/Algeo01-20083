@@ -3,18 +3,22 @@ import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
 
 public class Regresi {
+    /** SOLVE REGRESI
+     * Memprediksi nilai y dengan menggunakan regresi linear
+     * @param m matrix augmented persamaan linear
+     * @return nilai y di titik x
+     */
     public static double solveRegresi(Matrix m){
         int n = m.rows;
         int k = m.cols; 
         int i, j, par;
 
-        // Store user input of values to be estimated in an array of double
-        double[] tempVar = new double[k - 1];
+        // Menyimpan user input berisi estimasi nilai peubah dalam sebuah array double
+        double[] var = new double[k - 1];
         String str;
-        JOptionPane.showMessageDialog(null, "Masukkan nilai yang akan ditaksir!", "Regresi Linear Berganda", JOptionPane.QUESTION_MESSAGE);
         for (j = 0; j < k - 1; j++){
             while(true){
-                str = JOptionPane.showInputDialog(null, "Enter x" + (j+1) + ": ", "Regresi Linear Berganda", JOptionPane.PLAIN_MESSAGE);
+                str = JOptionPane.showInputDialog(null, "Masukkan estimasi nilai x" + (j+1) + ": ", "Regresi Linear Berganda", JOptionPane.PLAIN_MESSAGE);
                 if (str == null){
                     Interface.user();
                 }
@@ -22,7 +26,7 @@ public class Regresi {
                     break;
                 }
             }
-            tempVar[j] = Double.parseDouble(str);
+            var[j] = Double.parseDouble(str);
         }
 
         // Normal Estimation Equation for Multiple Linear Regression
@@ -82,19 +86,20 @@ public class Regresi {
             }
         }
 
-        // Store values found through Gauss Elimination in array of double
+        // Menyimpan hasil Eliminasi Gauss pada matrix ab dalam array double
         double result[] = new double[ab.cols];
         ab = SPL.Gauss(ab);
         result = SPL.UniqueSPL(ab);
 
         // Print general equation
+        DecimalFormat df = new DecimalFormat("####0.000000");
         System.out.print("y = ");
         for (i = 0; i < result.length - 1; i++){
             if (i == 0){
-                System.out.print(result[i] + " ");
+                System.out.print(df.format(result[i]) + " ");
             }
             else{
-                System.out.print("+ " + result[i] + "x" + (i + 1) + " ");
+                System.out.print("+ " + df.format(result[i]) + "x" + (i + 1) + " ");
             }
         }
         
@@ -106,10 +111,9 @@ public class Regresi {
                 approx += result[i];
             }
             else{
-                approx += result[i] * tempVar[i - 1];
+                approx += result[i] * var[i - 1];
             }
         }
-        DecimalFormat df = new DecimalFormat("####0.00");
         System.out.println("Hasil penaksiran: " + df.format(approx));
         return approx;
     }
