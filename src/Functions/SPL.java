@@ -98,6 +98,53 @@ public class SPL {
         return M;
     }
 
+    // Find the solution for unique SPL
+    public static double[] UniqueSPL(Matrix M) {
+        // Create a double to put all the solution
+        double[] solution = new double[M.cols];
+
+        // Initialize columns & rows
+        int columns;
+        int rows = M.rows;
+
+        // Fill the solution with 0
+        for (int i = 0; i < M.cols; ++i) {
+            solution[i] = 0;
+        }
+
+        // Find the value
+        while (true) {
+            --rows;
+            // Break from the loop when idx row is not valid
+            if (rows < 0) {
+                break;
+            }
+            // Find the leading one from the row
+            columns = Func.findLeadingOne(M, rows);
+
+            // Case = -1 --> all 0 row
+            if (columns == -1) {
+                continue;
+            }
+
+            // Case = 2 --> if col + 1 = last col --> value = last col
+            if (columns + 1 == M.cols) {
+                solution[columns] = Func.getElmt(M, rows, M.cols - 1);
+                continue;
+            }
+
+            // Case = 3 --> col+1 is not the last col
+            solution[columns] = Func.getElmt(M, rows, M.cols - 1);
+
+            // Looping to find the value
+            for (int j = columns + 1; j < M.cols; ++j) {
+                solution[columns] -= Func.getElmt(M, rows, j) * solution[j];
+            }
+        }
+
+        return solution;
+    }
+
     // Solve SPL
     public static void SolveSPL(Matrix M, String SPLtype) {
 
@@ -154,49 +201,23 @@ public class SPL {
         }
 
         // PRINT SOLUTION
-        double[] solution = new double[M.cols];
-        int col;
-        int row = M.rows;
-
+        // Case 1 : No Solution
         if (!foundSol) {
-            // No solution
             System.out.println("SPL tidak memiliki solusi.");
-        } else if (foundSol && unique) {
+        }
+        // Case 2 : Unique Solution
+        else if (foundSol && unique) {
             // 1. Find the unique solution
-
-            // Set the solution value to 0
-            for (i = 0; i < M.cols; ++i) {
-                solution[i] = 0;
-            }
-
-            // Find the value
-            while (true) {
-                --row;
-                if (row < 0) {
-                    break;
-                }
-                col = Func.findLeadingOne(M, row);
-
-                if (col == -1) {
-                    continue;
-                }
-
-                if (col + 1 == M.cols) {
-                    solution[col] = Func.getElmt(M, row, M.cols - 1);
-                    continue;
-                }
-                solution[col] = Func.getElmt(M, row, M.cols - 1);
-
-                for (j = col + 1; j < M.cols; ++j) {
-                    solution[col] -= Func.getElmt(M, row, j) * solution[j];
-                }
-            }
+            double[] solution = new double[M.cols];
+            solution = UniqueSPL(M);
 
             // 2. Print the solution
             for (i = 0; i < solution.length; i++) {
                 System.out.println("x" + (i + 1) + " = " + solution[i]);
             }
-        } else if (foundSol && !unique) {
+        }
+        // Case 3 : Many Solution
+        else if (foundSol && !unique) {
             // ADUH GATAU PARAMETRIK GIMANA
         }
     }
