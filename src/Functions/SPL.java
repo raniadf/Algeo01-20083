@@ -142,6 +142,10 @@ public class SPL {
             }
         }
 
+            // for (int i = 0; i < solution.length; i++) {
+            //     System.out.println(solution[i]);
+            // }
+
         return solution;
     }
 
@@ -212,6 +216,7 @@ public class SPL {
             solution = UniqueSPL(M);
 
             // 2. Print the solution
+
             for (i = 0; i < solution.length - 1; i++) {
                 System.out.println("x" + (i + 1) + " = " + solution[i]);
             }
