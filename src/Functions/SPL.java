@@ -1,4 +1,5 @@
 package src.Functions;
+import javax.swing.JOptionPane;
 
 public class SPL {
 
@@ -207,7 +208,7 @@ public class SPL {
         // PRINT SOLUTION
         // Case 1 : No Solution
         if (!foundSol) {
-            System.out.println("SPL tidak memiliki solusi.");
+            JOptionPane.showMessageDialog(null, "SPL tidak memiliki solusi.", "X Solution Bruv :'v", JOptionPane.WARNING_MESSAGE);
         }
         // Case 2 : Unique Solution
         else if (foundSol && unique) {
