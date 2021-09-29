@@ -485,7 +485,7 @@ public class Func{
                 if (Func.getElmt(M, i, j) == 0 || Func.getElmt(M, i, j) == (-0)) {
                     Func.setElmt(M, i, j, 0);
                 } else {
-                    DecimalFormat df = new DecimalFormat("######.##");
+                    DecimalFormat df = new DecimalFormat("######.####");
                     String formatted = df.format(Func.getElmt(M, i, j));
                     double d = Double.parseDouble(formatted);
                     Func.setElmt(M, i, j, d);
