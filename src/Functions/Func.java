@@ -337,16 +337,11 @@ public class Func{
 
     public static Matrix multiply(Matrix m1, Matrix m2){
         Matrix m3 = new Matrix(m1.rows, m2.cols);
-        int i, j;
-        for (i = 0; i <= getLastIdxRow(m3); i++){
-            for (j = 0; j <= getLastIdxCol(m3); j++){
-                int x, temp;
-                temp = 0;
-                for (x = 0; x < m1.cols; x++){
-                    temp += (getElmt(m1, i, x) * getElmt(m2, x, j));
+        for (int i = 0; i <= getLastIdxRow(m1); i++){
+            for (int j = 0; j <= getLastIdxCol(m2); j++){
+                for (int k = 0; k <= getLastIdxCol(m1); k++){
+                    m3.contents[i][j] += (m1.contents[i][k] * m2.contents[k][j]);
                 }
-                setElmt(m3, i, j, temp);
-                temp = 0;
             }
         }
         return m3;

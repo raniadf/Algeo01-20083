@@ -18,7 +18,7 @@ public class Invers {
         }
         Matrix A = new Matrix(m.rows, m.cols - 1);
         Matrix b = new Matrix(m.rows, 1);
-        Matrix var = new Matrix(m.rows, 1);
+        Matrix var;
 
         int i, j;
         for (i = 0; i <= Func.getLastIdxRow(A); i++){
@@ -31,7 +31,7 @@ public class Invers {
                 Func.setElmt(b, i, 0, Func.getElmt(m, i, Func.getLastIdxCol(m)));
             }
 
-        A = adjoint(A); // Invers matriks A dengan metode adjoin
+        A = gaussJordan(A); // Invers matriks A dengan metode adjoin
         var = Func.multiply(A, b);
 
         for (i = 0; i <= Func.getLastIdxRow(var); i++){
