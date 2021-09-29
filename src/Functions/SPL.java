@@ -6,11 +6,11 @@ public class SPL {
     public static Matrix Gauss(Matrix M) {
         // Set index
         int i = 0;
-        boolean foundOneinRow = false;
 
         // Forward loop
         for (int j = 0; j < M.cols; ++j) {
-
+            boolean foundOneinRow = false;
+            
             // Case matrix = 0
             if (Func.getElmt(M, i, j) == 0) {
 
@@ -24,7 +24,7 @@ public class SPL {
                     if (Func.getElmt(M, ColCheck, j) != 0) {
                         notZero = true;
                         // Swap the rows
-                        Func.switchOBE(M, ColCheck + 1, i);
+                        Func.switchOBE(M, ColCheck + 1, i + 1);
                     }
                     // Change rows
                     ++ColCheck;
@@ -57,7 +57,7 @@ public class SPL {
             }
 
             // Break the loop if index of rows > rows of matrix
-            if (i >= M.rows) {
+            if (M.rows <= i) {
                 break;
             }
         }
