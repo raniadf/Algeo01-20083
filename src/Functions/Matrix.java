@@ -1,4 +1,5 @@
 package src.Functions;
+
 final public class Matrix {
     final double[][] contents;
     final int rows;

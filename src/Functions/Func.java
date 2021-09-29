@@ -192,6 +192,22 @@ public class Func{
             e.printStackTrace();
         }
     }
+    public static void writeMatrix(String[] m){
+        String filename = JOptionPane.showInputDialog(null, "Save file name as ______.txt (fill in d'blankz)", JOptionPane.PLAIN_MESSAGE);
+        try {
+            FileWriter writer = new FileWriter(".\\test\\" + filename + ".txt");
+            int i;
+            for (i = 0; i < m.length; i++){
+                writer.write(m[i]);
+                writer.write("\n");
+            }
+            writer.close();
+            JOptionPane.showMessageDialog(null, "Save berhasil!", "File Saved", JOptionPane.PLAIN_MESSAGE);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "An error occured", "Uh-Oh...", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
 
     public static void displayMatrix(Matrix m){
         DecimalFormat df = new DecimalFormat("####0.00");
@@ -321,22 +337,17 @@ public class Func{
 
     public static Matrix multiply(Matrix m1, Matrix m2){
         Matrix m3 = new Matrix(m1.rows, m2.cols);
-        int i, j;
-        for (i = 0; i <= getLastIdxRow(m3); i++){
-            for (j = 0; j <= getLastIdxCol(m3); j++){
-                int x, temp;
-                temp = 0;
-                for (x = 0; x < m1.cols; x++){
-                    temp += (getElmt(m1, i, x) * getElmt(m2, x, j));
+        for (int i = 0; i <= getLastIdxRow(m1); i++){
+            for (int j = 0; j <= getLastIdxCol(m2); j++){
+                for (int k = 0; k <= getLastIdxCol(m1); k++){
+                    m3.contents[i][j] += (m1.contents[i][k] * m2.contents[k][j]);
                 }
-                setElmt(m3, i, j, temp);
-                temp = 0;
             }
         }
         return m3;
     }
 
-    /* OPERASI LAINNYA */
+    /* FUNGSI-FUNGSI HELPER LAINNYA */
     /**
      * Mengembalikan banyaknya elemen pada matriks
      * */
@@ -408,11 +419,6 @@ public class Func{
                 switchOBE(m, i, --z);
             }
 
-            // Setelah selesai pencarian pivot tidak 0,
-            // kalikan semua elemen di matriks dengan pembuat 1 atau inverse
-            // pivot
-            //this.kaliBaris(i, 1/pivot); // Ternyata ini butuhnya kalo mau bikin Gauss
-
             // Setelah dikali pivot, 0-kan semua elemen yang sekolom dan di
             // bawah pivot
             for (j = i + 1; j < m.rows; ++j) {
@@ -470,7 +476,7 @@ public class Func{
                     
                 }
                 cofactorMat.contents[i][j] = Math.pow(-1, i + j) * 
-                                             Determinant.rowRed(temp);
+                                             Determinant.cofExp(temp);
             }
         }
         return cofactorMat;

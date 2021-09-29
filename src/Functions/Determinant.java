@@ -49,9 +49,9 @@ public class Determinant {
     public static double rowRed(Matrix m) {
         double det = 1.0;
         int switchCount;
-        Matrix tempMat = new Matrix(m.rows, m.cols);
+        Matrix tempMat;
 
-        tempMat = m;
+        tempMat = Func.copyMatrix(m);
 
         if (!Func.isSquare(m)) {
             System.out.println("Determinan tidak dapat dihitung karena bukan matriks persegi.");
