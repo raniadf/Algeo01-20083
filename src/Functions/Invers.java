@@ -58,6 +58,9 @@ public class Invers {
                 inverseMat.contents[i][j] = (1 / det) * adjointMat.contents[i][j];
             }
         }
+        System.out.println("Hasil Invers:");
+        Func.displayMatrix(inverseMat);
+        System.out.println("\n");
         return inverseMat;
     }
 
@@ -83,12 +86,15 @@ public class Invers {
         }
 
         int i2, j2;
-        SPL.GaussJordan(m); 
-        for (i2 = 0; i2 < m.rows; i2++) {
-            for (j2 = 0; j2 < m.cols; j2++) {
-                inverseMat.contents[i2][j2] = temp.contents[i2][j2 + m.cols];
+        m = SPL.GaussJordan(temp);
+        for (i2 = 0; i2 < inverseMat.rows; i2++) {
+            for (j2 = 0; j2 < inverseMat.cols; j2++) {
+                inverseMat.contents[i2][j2] = temp.contents[i2][j2 + inverseMat.cols];
             }
         }
+        System.out.println("Hasil Invers:");
+        Func.displayMatrix(inverseMat);
+        System.out.println("\n");
         return inverseMat;
     }
 }
