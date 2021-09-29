@@ -1,16 +1,17 @@
 package src.Functions;
+import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
 
 public class Regresi {
-    public static Matrix solveRegresi(Matrix m){
+    public static double solveRegresi(Matrix m){
         int n = m.rows;
         int k = m.cols; 
         int i, j, par;
 
+        // Store user input of values to be estimated in an array of double
         double[] tempVar = new double[k - 1];
         String str;
-
-        JOptionPane.showMessageDialog(null, "Enter variabel to estimate", "Regresi Linear Berganda", JOptionPane.QUESTION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Masukkan nilai yang akan ditaksir!", "Regresi Linear Berganda", JOptionPane.QUESTION_MESSAGE);
         for (j = 0; j < k - 1; j++){
             while(true){
                 str = JOptionPane.showInputDialog(null, "Enter x" + (j+1) + ": ", "Regresi Linear Berganda", JOptionPane.PLAIN_MESSAGE);
@@ -24,9 +25,9 @@ public class Regresi {
             tempVar[j] = Double.parseDouble(str);
         }
 
+        // Normal Estimation Equation for Multiple Linear Regression
         Matrix b = new Matrix(k, 1);
         Matrix a = new Matrix(k, k);
-        
 
         for (i = 0; i <= Func.getLastIdxRow(b); i++){
             for (j = 0; j < n; j++){
@@ -81,32 +82,34 @@ public class Regresi {
             }
         }
 
-        // ab = GaussJordan(ab);
+        // Store values found through Gauss Elimination in array of double
+        double result[] = new double[ab.cols];
+        result = SPL.UniqueSPL(ab);
 
-        JOptionPane.showMessageDialog(null, "Hasil ada di command prompt!");
+        // Print general equation
         System.out.print("y = ");
-        for (i = 0; i < ab.rows; i++){
+        for (i = 0; i < result.length - 1; i++){
             if (i == 0){
-                System.out.print(Func.getElmt(ab, i, 0) + " ");
+                System.out.print(result[i] + " ");
             }
             else{
-                System.out.print("+ " + Func.getElmt(ab, i, 0) + "x" + (i + 1) + " ");
+                System.out.print("+ " + result[i] + "x" + (i + 1) + " ");
             }
         }
-
+        
+        // Print end result
         System.out.print("\n");
-
         double approx = 0;
-        for (i = 0; i < ab.rows; i++){
+        for (i = 0; i < result.length - 1; i++){
             if (i == 0){
-                approx += Func.getElmt(ab, i, 0);
+                approx += result[i];
             }
             else{
-                approx += Func.getElmt(ab, i, 0) * tempVar[i - 1];
+                approx += result[i] * tempVar[i - 1];
             }
         }
-
-        System.out.println("Hasil taksir: " + approx);
-        return ab;
+        DecimalFormat df = new DecimalFormat("####0.00");
+        System.out.println("Hasil penaksiran: " + df.format(approx));
+        return approx;
     }
 }
