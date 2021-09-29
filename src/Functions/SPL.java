@@ -9,8 +9,9 @@ public class SPL {
 
         // Forward loop
         for (int j = 0; j < M.cols; ++j) {
+            // Set parameter found one in row to false
             boolean foundOneinRow = false;
-            
+
             // Case matrix = 0
             if (Func.getElmt(M, i, j) == 0) {
 
@@ -62,6 +63,7 @@ public class SPL {
             }
         }
 
+        M = Func.ZeroNRound(M);
         return M;
     }
 
@@ -92,26 +94,8 @@ public class SPL {
             }
         }
 
+        M = Func.ZeroNRound(M);
         return M;
-    }
-
-    // Find the first 1 in row -> Output : integer (index column)
-    public static int findLeadingOne(Matrix M, int row) {
-        // Set j for column loop
-        int j;
-        // Set idx to -1 (not found)
-        int idx = -1;
-
-        // Forward loop
-        for (j = 0; j < M.cols - 1; ++j) {
-            // If found 1 -> idx = j
-            if (Func.getElmt(M, row, j) == 1) {
-                idx = j;
-                break;
-            }
-        }
-
-        return idx;
     }
 
     // Solve SPL
@@ -191,7 +175,7 @@ public class SPL {
                 if (row < 0) {
                     break;
                 }
-                col = findLeadingOne(M, row);
+                col = Func.findLeadingOne(M, row);
 
                 if (col == -1) {
                     continue;
