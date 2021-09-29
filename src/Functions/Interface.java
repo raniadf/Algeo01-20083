@@ -121,7 +121,7 @@ public class Interface {
                 m = Invers.gaussJordan(m);
                 break;
             case 2:
-                m = Invers.adjoin(m);
+                m = Invers.adjoint(m);
                 break;
             }
             break;

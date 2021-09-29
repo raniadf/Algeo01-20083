@@ -481,7 +481,7 @@ public class Func{
                     
                 }
                 cofactorMat.contents[i][j] = Math.pow(-1, i + j) * 
-                                             Determinant.rowRed(temp);
+                                             Determinant.cofExp(temp);
             }
         }
         return cofactorMat;

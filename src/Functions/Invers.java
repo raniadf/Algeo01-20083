@@ -30,7 +30,7 @@ public class Invers {
                 Func.setElmt(b, i, 0, Func.getElmt(m, i, Func.getLastIdxCol(m)));
             }
 
-        A = adjoin(A); // Invers matriks A dengan metode adjoin
+        A = adjoint(A); // Invers matriks A dengan metode adjoin
         var = Func.multiply(A, b);
 
         for (i = 0; i <= Func.getLastIdxRow(var); i++){
@@ -45,7 +45,7 @@ public class Invers {
      * @param m matriks yang ingin dicari inversnya
      * @return matriks invers dari m
      */
-    public static Matrix adjoin(Matrix m) {
+    public static Matrix adjoint(Matrix m) {
         Matrix adjointMat;
         Matrix inverseMat = new Matrix(m.rows, m.cols);
 
@@ -58,7 +58,7 @@ public class Invers {
                 inverseMat.contents[i][j] = (1 / det) * adjointMat.contents[i][j];
             }
         }
-        
+
         System.out.println("Hasil Invers:");
         Func.displayMatrix(inverseMat);
         System.out.println("\n");
