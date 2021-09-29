@@ -99,7 +99,7 @@ public class SPL {
     }
 
     // Find the solution for unique SPL
-    public static double[] UniqueSPL(Matrix M) {
+    public static double[] UniqueSPL (Matrix M){
         // Create a double to put all the solution
         double[] solution = new double[M.cols];
 
@@ -204,18 +204,18 @@ public class SPL {
         // Case 1 : No Solution
         if (!foundSol) {
             System.out.println("SPL tidak memiliki solusi.");
-        }
+        } 
         // Case 2 : Unique Solution
         else if (foundSol && unique) {
             // 1. Find the unique solution
-            double[] solution = new double[M.cols];
+            double[] solution = new double [M.cols];
             solution = UniqueSPL(M);
 
             // 2. Print the solution
-            for (i = 0; i < solution.length; i++) {
+            for (i = 0; i < solution.length - 1; i++) {
                 System.out.println("x" + (i + 1) + " = " + solution[i]);
             }
-        }
+        } 
         // Case 3 : Many Solution
         else if (foundSol && !unique) {
             // ADUH GATAU PARAMETRIK GIMANA
