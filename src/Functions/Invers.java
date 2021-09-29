@@ -42,11 +42,11 @@ public class Invers {
     /** ADJOIN
      * Mengembalikan inverse dari matriks dengan metode kofaktor/adjoin
      * Prekondisi: matriks persegi (isSquare(m))
-     * param m matriks yang ingin dicari inversnya
-     * return matriks invers dari m
+     * @param m matriks yang ingin dicari inversnya
+     * @return matriks invers dari m
      */
     public static Matrix adjoin(Matrix m) {
-        Matrix adjointMat = new Matrix(m.rows, m.cols);
+        Matrix adjointMat;
         Matrix inverseMat = new Matrix(m.rows, m.cols);
 
         double det = Determinant.cofExp(m);
@@ -58,13 +58,14 @@ public class Invers {
                 inverseMat.contents[i][j] = (1 / det) * adjointMat.contents[i][j];
             }
         }
+        
         System.out.println("Hasil Invers:");
         Func.displayMatrix(inverseMat);
         System.out.println("\n");
         return inverseMat;
     }
 
-    /** ADJOIN
+    /** GAUSS JORDAN
      * Mengembalikan inverse dari matriks dengan metode Gauss Jordan
      * Prekondisi: matriks persegi (isSquare(m))
      * @param m matriks yang ingin dicari inversnya
@@ -92,6 +93,7 @@ public class Invers {
                 inverseMat.contents[i2][j2] = temp.contents[i2][j2 + inverseMat.cols];
             }
         }
+
         System.out.println("Hasil Invers:");
         Func.displayMatrix(inverseMat);
         System.out.println("\n");
