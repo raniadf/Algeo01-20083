@@ -1,4 +1,5 @@
 package src.Functions;
+import javax.swing.JOptionPane;
 
 public class SPL {
 
@@ -207,7 +208,7 @@ public class SPL {
         // PRINT SOLUTION
         // Case 1 : No Solution
         if (!foundSol) {
-            System.out.println("SPL tidak memiliki solusi.");
+            JOptionPane.showMessageDialog(null, "SPL tidak memiliki solusi.", "X Solution Bruv :'v", JOptionPane.WARNING_MESSAGE);
         }
         // Case 2 : Unique Solution
         else if (foundSol && unique) {
@@ -227,110 +228,3 @@ public class SPL {
         }
     }
 }
-
-// public static void SPLGauss(Matrix M) {
-// M = Gauss(M);
-
-// // CHECK SOLUTION TYPE
-// boolean foundSol = false;
-// boolean unique = false;
-// int i, j;
-
-// // Check the last row
-// // Case 1 : last element != 0
-// // 1. No Solution
-// // [1 2 1 2] [1]
-// // [0 1 1 2] [0]
-// // [0 0 0 2] [-1]
-// // 2. Unique Solution
-// // 1 1 1 0
-// // 0 1 -1 1
-// // 0 0 1 1
-// if (Func.getElmt(M, M.rows - 1, M.cols - 1) != 0) {
-// j = M.cols - 1;
-// while (!foundSol && j >= 0) {
-// // Case 1.2
-// if (Func.getElmt(M, M.rows - 1, j) != 0) {
-// unique = true;
-// foundSol = true;
-// }
-// // Case 1.1 = always 0 and always !foundSol
-// --j;
-// }
-// }
-
-// // Case 2 : last element == 0
-// // 3. Many Solution
-// // 1 2 1 1
-// // 0 1 1 2
-// // 0 0 0 0
-// if (Func.getElmt(M, M.rows - 1, M.cols - 1) == 0) {
-// for (j = M.cols - 1; j >= 0; --j) {
-// if (Func.getElmt(M, M.rows - 1, j) != 0) {
-// break;
-// } else {
-// foundSol = true;
-// unique = false;
-// }
-// }
-// }
-
-// // PRINT SOLUTION
-// double[] solution = new double[M.rows];
-// if (!foundSol) {
-// // No solution
-// System.out.println("SPL tidak memiliki solusi.");
-// } else if (foundSol && unique) {
-// // Find the unique solution
-// for (i = M.rows - 1; i >= 0; --i) {
-// double sum = 0.0;
-// for (j = i + 1; j < M.rows; ++j) {
-// sum = sum + (Func.getElmt(M, i, j) * solution[j]);
-// }
-// solution[i] = (Func.getElmt(M, i, M.rows - 1) - sum) / Func.getElmt(M, i, i);
-// }
-
-// // Print the solution
-// for (i = 0; i < solution.length; i++) {
-// System.out.println("x" + (i + 1) + " = " + solution[i]);
-// }
-// } else if (foundSol && !unique) {
-// // ADUH GATAU PARAMETRIK GIMANA
-// }
-
-// }
-
-// public static void SPLGaussJordan(Matrix M) {
-// M = GaussJordan(M);
-
-// // CHECK SOLUTION TYPE
-// boolean foundSol = false;
-// boolean unique = false;
-// int i, j;
-
-// // PRINT SOLUTION
-// double[] solution = new double[M.rows];
-// if (!foundSol) {
-// // No solution --> Output = null;
-// System.out.println("SPL tidak memiliki solusi.");
-// solution = null;
-// } else if (foundSol && unique) {
-// // Find the unique solution
-// for (i = M.rows - 2; i >= 0; --i) {
-// double sum = 0.0;
-// for (j = i + 1; j < M.rows; ++j) {
-// sum = sum + (Func.getElmt(M, i, j) * solution[j]);
-// }
-// solution[i] = (Func.getElmt(M, i, M.rows - 1) - sum) / Func.getElmt(M, i, i);
-// }
-
-// // Print the solution
-// for (i = 0; i < solution.length; i++) {
-// System.out.println("x" + (i + 1) + " = " + solution[i]);
-// }
-// } else if (foundSol && !unique) {
-// // ADUH GATAU PARAMETRIK GIMANA
-// }
-
-// }
-// }
