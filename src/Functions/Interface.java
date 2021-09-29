@@ -69,7 +69,7 @@ public class Interface {
                 resultSPL = SPL.SolveSPL(m, "Gauss Jordan");
                 break;
             case 3:
-                resultSPL = Cramer.solveSPL(m);// NANTI GANTI jadi result = Invers.solveSPL(m); 
+                resultSPL = Invers.solveSPL(m);// NANTI GANTI jadi result = Invers.solveSPL(m); 
                 break;
             case 4:
                 resultSPL = Cramer.solveSPL(m);
