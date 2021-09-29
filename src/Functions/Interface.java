@@ -61,10 +61,10 @@ public class Interface {
             }
             switch (optionSPL){
             case 1:
-                resultSPL = Cramer.solveSPL(m);// NANTI GANTI jadi result = solve.Gauss
+                resultSPL = SPL.SolveSPL(m, "Gauss");
                 break;
             case 2:
-                resultSPL = Cramer.solveSPL(m);// NANTI GANTI jadi result = solve.GaussJordan
+                resultSPL = SPL.SolveSPL(m, "Gauss Jordan");
                 break;
             case 3:
                 resultSPL = Cramer.solveSPL(m);// NANTI GANTI jadi result = Invers.solveSPL(m); 
