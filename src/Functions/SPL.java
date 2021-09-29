@@ -1,4 +1,5 @@
 package src.Functions;
+
 import javax.swing.JOptionPane;
 
 public class SPL {
@@ -102,14 +103,14 @@ public class SPL {
     // Find the solution for unique SPL
     public static double[] UniqueSPL(Matrix M) {
         // Create a double to put all the solution
-        double[] solution = new double[M.cols];
+        double[] solution = new double[M.cols - 1];
 
         // Initialize columns & rows
         int columns;
         int rows = M.rows;
 
         // Fill the solution with 0
-        for (int i = 0; i < M.cols; ++i) {
+        for (int i = 0; i < M.cols - 1; ++i) {
             solution[i] = 0;
         }
 
@@ -138,21 +139,23 @@ public class SPL {
             solution[columns] = Func.getElmt(M, rows, M.cols - 1);
 
             // Looping to find the value
-            for (int j = columns + 1; j < M.cols; ++j) {
+            for (int j = columns + 1; j < M.cols - 1; ++j) {
                 solution[columns] -= Func.getElmt(M, rows, j) * solution[j];
             }
         }
 
-            // for (int i = 0; i < solution.length; i++) {
-            //     System.out.println(solution[i]);
-            // }
+        for (int i = 0; i < solution.length; i++) {
+            System.out.println("TES");
+            System.out.println(solution[i]);
+        }
 
         return solution;
     }
 
     // Solve SPL
-    public static void SolveSPL(Matrix M, String SPLtype) {
+    public static double[] SolveSPL(Matrix M, String SPLtype) {
 
+        double[] solution = new double[M.cols - 1];
         // ASSIGN MATRIX
         if (SPLtype == "Gauss") {
             M = Gauss(M);
@@ -209,22 +212,25 @@ public class SPL {
         // Case 1 : No Solution
         if (!foundSol) {
             JOptionPane.showMessageDialog(null, "SPL tidak memiliki solusi.", "X Solution Bruv :'v", JOptionPane.WARNING_MESSAGE);
+            solution = null;
         }
         // Case 2 : Unique Solution
         else if (foundSol && unique) {
             // 1. Find the unique solution
-            double[] solution = new double[M.cols];
             solution = UniqueSPL(M);
 
             // 2. Print the solution
-
-            for (i = 0; i < solution.length - 1; i++) {
+            for (i = 0; i < solution.length; i++) {
                 System.out.println("x" + (i + 1) + " = " + solution[i]);
             }
         }
         // Case 3 : Many Solution
         else if (foundSol && !unique) {
             // ADUH GATAU PARAMETRIK GIMANA
+            JOptionPane.showMessageDialog(null, "Srry ini parametrik bruv.", "SUSAH :'v", JOptionPane.WARNING_MESSAGE);
+            solution = null;
         }
+
+        return solution;
     }
 }
