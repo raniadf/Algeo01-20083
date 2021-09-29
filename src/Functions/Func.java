@@ -475,4 +475,44 @@ public class Func{
         }
         return cofactorMat;
     }
+
+    /**
+     * Mengembalikan matriks dengan decimal 2 dan -0 diubah menjadi 0
+     * */
+    public static Matrix ZeroNRound(Matrix M) {
+        for (int i = 0; i < M.rows; ++i) {
+            for (int j = 0; j < M.cols; ++j) {
+                if (Func.getElmt(M, i, j) == 0 || Func.getElmt(M, i, j) == (-0)) {
+                    Func.setElmt(M, i, j, 0);
+                } else {
+                    DecimalFormat df = new DecimalFormat("######.##");
+                    String formatted = df.format(Func.getElmt(M, i, j));
+                    double d = Double.parseDouble(formatted);
+                    Func.setElmt(M, i, j, d);
+                }
+            }
+        }
+        return M;
+    }
+
+    /**
+     * Mengembalikan index dari leading one
+     * */
+    public static int findLeadingOne(Matrix M, int row) {
+        // Set j for column loop
+        int j;
+        // Set idx to -1 (not found)
+        int idx = -1;
+
+        // Forward loop
+        for (j = 0; j < M.cols - 1; ++j) {
+            // If found 1 -> idx = j
+            if (Func.getElmt(M, row, j) == 1) {
+                idx = j;
+                break;
+            }
+        }
+
+        return idx;
+    }
 }
