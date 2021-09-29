@@ -8,7 +8,7 @@ public class Regresi {
      * @param m matrix augmented persamaan linear
      * @return nilai y di titik x
      */
-    public static double solveRegresi(Matrix m){
+    public static String[] solveRegresi(Matrix m){
         int n = m.rows;
         int k = m.cols; 
         int i, j, par;
@@ -94,19 +94,23 @@ public class Regresi {
         // Print general equation
         DecimalFormat df = new DecimalFormat("####0.000000");
         System.out.print("y = ");
-        for (i = 0; i < result.length - 1; i++){
+        String equation = "y =";
+        for (i = 0; i < result.length; i++){
             if (i == 0){
                 System.out.print(df.format(result[i]) + " ");
+                equation += df.format(result[i]) + " ";
             }
             else{
                 System.out.print("+ " + df.format(result[i]) + "x" + (i + 1) + " ");
+                equation += "+ " + df.format(result[i]) + "x" + (i + 1) + " ";
             }
         }
         
         // Print end result
         System.out.print("\n");
         double approx = 0;
-        for (i = 0; i < result.length - 1; i++){
+        String strapprox = "";
+        for (i = 0; i < result.length; i++){
             if (i == 0){
                 approx += result[i];
             }
@@ -114,7 +118,13 @@ public class Regresi {
                 approx += result[i] * var[i - 1];
             }
         }
-        System.out.println("Hasil penaksiran: " + df.format(approx));
-        return approx;
+        strapprox = df.format(approx);
+        System.out.println("Hasil penaksiran: " + strapprox);
+
+        // Return array of string (for writing to file) 
+        String[] strresult = new String[2];
+        strresult[0] = equation;
+        strresult[1] = strapprox;
+        return strresult;
     }
 }

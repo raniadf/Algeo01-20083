@@ -25,7 +25,6 @@ public class Interface {
         }
         
         Matrix m;
-        double result = 0;
         if (matrix == 1){
             m = Func.readMatrix();
         }
@@ -47,10 +46,13 @@ public class Interface {
             }
         }
 
+        String[] resultApprox = new String[2];
+        double resultDet = 0;
+        double[] resultSPL;
+
         switch (option){
         case 1:
             String optSPL = "0";
-            double[] resultSPL;
             int optionSPL = Integer.parseInt(optSPL);
             while (optionSPL != 1 && optionSPL != 2 && optionSPL != 3 && optionSPL != 4 && (optSPL != null || optSPL == "")){ 
                 optSPL = JOptionPane.showInputDialog(null, "SPL pake cara apa nih? \n 1. Metode Eliminasi Gauss \n 2. Metode Eliminasi Gauss-Jordan \n 3. Metode Matriks Balikan \n 4. Kaidah Cramer \n");
@@ -94,13 +96,15 @@ public class Interface {
             }
             switch (optionDet){
             case 1:
-                result = Determinant.rowRed(m);
+                resultDet = Determinant.rowRed(m);
                 break;
             case 2:
-                result = Determinant.cofExp(m);
+                resultDet = Determinant.cofExp(m);
                 break;
             }
-            System.out.println("Determinan adalah: " + result);
+            System.out.println("Determinan adalah: " + resultDet);
+            m = new Matrix(1, 1);
+            Func.setElmt(m, 0, 0, resultDet);
             break;
         case 3:
             String optInv = "0";
@@ -132,10 +136,10 @@ public class Interface {
             if (x == null){
                 return;
             }
-            result = Interpolasi.solveInterpolasi(m, Double.parseDouble(x));
+            resultApprox = Interpolasi.solveInterpolasi(m, Double.parseDouble(x));
             break;
         case 5:
-            result = Regresi.solveRegresi(m);
+            resultApprox = Regresi.solveRegresi(m);
             break;
         }
 
@@ -143,10 +147,8 @@ public class Interface {
         int save = JOptionPane.YES_NO_OPTION;
         save = JOptionPane.showConfirmDialog(null, "Mau disave jadi file .txt ga hasilnya?", "Save File", save);
         if (save == JOptionPane.YES_OPTION){
-            if (option == 2 || option == 4 || option == 5){
-                Matrix temp = new Matrix(1,1);
-                Func.setElmt(temp, 0, 0, result);
-                Func.writeMatrix(temp);
+            if (option == 4 || option == 5){
+                Func.writeMatrix(resultApprox);
             }
             else{
                 Func.writeMatrix(m);

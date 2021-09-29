@@ -192,6 +192,22 @@ public class Func{
             e.printStackTrace();
         }
     }
+    public static void writeMatrix(String[] m){
+        String filename = JOptionPane.showInputDialog(null, "Save file name as ______.txt (fill in d'blankz)", JOptionPane.PLAIN_MESSAGE);
+        try {
+            FileWriter writer = new FileWriter(".\\test\\" + filename + ".txt");
+            int i;
+            for (i = 0; i < m.length; i++){
+                writer.write(m[i]);
+                writer.write("\n");
+            }
+            writer.close();
+            JOptionPane.showMessageDialog(null, "Save berhasil!", "File Saved", JOptionPane.PLAIN_MESSAGE);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "An error occured", "Uh-Oh...", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
 
     public static void displayMatrix(Matrix m){
         DecimalFormat df = new DecimalFormat("####0.00");
