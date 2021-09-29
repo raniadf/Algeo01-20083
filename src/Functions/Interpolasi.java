@@ -28,6 +28,7 @@ public class Interpolasi {
         }
         // lakuin solveSPLGauss ke matrixnya
         // hasil SPLGaussnya disimpen di array double
+        p2x = SPL.Gauss(p2x);
         double[] result = SPL.UniqueSPL(p2x);
         for (i = 0; i < result.length - 1; i++){
             tot += result[i] * Math.pow(x, i);
