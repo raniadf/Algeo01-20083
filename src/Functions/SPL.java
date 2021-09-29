@@ -1,57 +1,71 @@
 package src.Functions;
 
 public class SPL {
+
+    // Gauss elimination -> Output : Matrix
     public static Matrix Gauss(Matrix M) {
         // Set index
-        int i, j;
+        int i = 0;
+        boolean foundOneinRow = false;
 
         // Forward loop
-        for (i = 0; i < M.rows; ++i) {
+        for (int j = 0; j < M.cols; ++j) {
 
-            for (j = 0; j < M.cols; ++j) {
+            // Case matrix = 0
+            if (Func.getElmt(M, i, j) == 0) {
 
-                // Case matrix = 0
-                if (Func.getElmt(M, i, j) == 0) {
+                // Parameter notzero
+                boolean notZero = false;
+                // Integer to check the same columns
+                int ColCheck = i + 1;
 
-                    // Parameter notzero
-                    boolean notZero = false;
-                    // Integer to check the same columns
-                    int ColCheck = i + 1;
-
-                    // To check the existence of non zero number in the same column
-                    while (ColCheck < M.rows && !notZero) {
-                        if (Func.getElmt(M, ColCheck, j) != 0) {
-                            notZero = true;
-                            // Swap the rows
-                            Func.switchOBE(M, ColCheck + 1, i);
-                        }
-                        ++ColCheck;
+                // To check the existence of non zero number in the same column
+                while (ColCheck < M.rows && !notZero) {
+                    if (Func.getElmt(M, ColCheck, j) != 0) {
+                        notZero = true;
+                        // Swap the rows
+                        Func.switchOBE(M, ColCheck + 1, i);
                     }
+                    // Change rows
+                    ++ColCheck;
+                }
+            }
+
+            // Case matrix != 0
+            if (Func.getElmt(M, i, j) != 0) {
+
+                // Divide the column by itself so that the leading column = 1
+                double Divider = Func.getElmt(M, i, j);
+                Func.divideOBE(M, i + 1, Divider);
+                foundOneinRow = true;
+
+                // Substract multiples of the row to other rows
+                double Factor;
+                int OtherRows = i + 1;
+                while (OtherRows < M.rows) {
+                    Factor = Func.getElmt(M, OtherRows, j);
+                    Func.addOBE(M, OtherRows + 1, i + 1, ((-1) * Factor));
+                    ++OtherRows;
                 }
 
-                // Case matrix != 0
-                if (Func.getElmt(M, i, j) != 0) {
+            }
 
-                    // Divide the column by itself so that the leading column = 1
-                    double Divider = Func.getElmt(M, i, j);
-                    Func.divideOBE(M, i + 1, Divider);
+            // Change row & column if found 1 in row
+            // x found 1 = switch column, same row
+            if (foundOneinRow) {
+                ++i;
+            }
 
-                    // Substract multiples of the row to other rows
-                    double Factor;
-                    int OtherRows = i + 1;
-                    while (OtherRows < M.rows) {
-                        Factor = Func.getElmt(M, OtherRows, j);
-                        Func.addOBE(M, OtherRows + 1, i + 1, ((-1) * Factor));
-                        ++OtherRows;
-                    }
-
-                }
+            // Break the loop if index of rows > rows of matrix
+            if (i >= M.rows) {
+                break;
             }
         }
 
         return M;
     }
 
+    // Gauss Jordan Elimination -> Output : Matrix
     public static Matrix GaussJordan(Matrix M) {
         // Set index
         int i, j;
@@ -81,26 +95,32 @@ public class SPL {
         return M;
     }
 
-    public static int findLeadingOne (Matrix M, int row){
+    // Find the first 1 in row -> Output : integer (index column)
+    public static int findLeadingOne(Matrix M, int row) {
+        // Set j for column loop
         int j;
+        // Set idx to -1 (not found)
         int idx = -1;
 
-        for (j = 0; j < M.cols-1; ++j){
-            if (Func.getElmt(M, row, j) == 1){
+        // Forward loop
+        for (j = 0; j < M.cols - 1; ++j) {
+            // If found 1 -> idx = j
+            if (Func.getElmt(M, row, j) == 1) {
                 idx = j;
                 break;
             }
         }
-        
+
         return idx;
     }
 
-    public static void SolveSPL(Matrix M, String SPLtype){
-        
+    // Solve SPL
+    public static void SolveSPL(Matrix M, String SPLtype) {
+
         // ASSIGN MATRIX
-        if (SPLtype == "Gauss"){
+        if (SPLtype == "Gauss") {
             M = Gauss(M);
-        } else if (SPLtype == "Gauss Jordan"){
+        } else if (SPLtype == "Gauss Jordan") {
             M = GaussJordan(M);
         }
 
@@ -161,30 +181,30 @@ public class SPL {
             // 1. Find the unique solution
 
             // Set the solution value to 0
-            for (i = 0; i < M.cols; ++i){
+            for (i = 0; i < M.cols; ++i) {
                 solution[i] = 0;
             }
 
             // Find the value
-            while (true){
+            while (true) {
                 --row;
-                if (row < 0){
+                if (row < 0) {
                     break;
                 }
                 col = findLeadingOne(M, row);
 
-                if (col == -1){
+                if (col == -1) {
                     continue;
                 }
 
-                if (col+1 == M.cols){
-                    solution[col] = Func.getElmt(M, row, M.cols-1);
+                if (col + 1 == M.cols) {
+                    solution[col] = Func.getElmt(M, row, M.cols - 1);
                     continue;
                 }
-                solution[col] = Func.getElmt(M, row, M.cols-1);
-                
-                for (j=col+1; j<M.cols; ++j){
-                    solution[col] -= Func.getElmt(M, row, j)*solution[j];
+                solution[col] = Func.getElmt(M, row, M.cols - 1);
+
+                for (j = col + 1; j < M.cols; ++j) {
+                    solution[col] -= Func.getElmt(M, row, j) * solution[j];
                 }
             }
 
@@ -197,111 +217,110 @@ public class SPL {
         }
     }
 }
-    
 
-    //     public static void SPLGauss(Matrix M) {
-    //         M = Gauss(M);
+// public static void SPLGauss(Matrix M) {
+// M = Gauss(M);
 
-    //         // CHECK SOLUTION TYPE
-    //         boolean foundSol = false;
-    //         boolean unique = false;
-    //         int i, j;
+// // CHECK SOLUTION TYPE
+// boolean foundSol = false;
+// boolean unique = false;
+// int i, j;
 
-    //         // Check the last row
-    //         // Case 1 : last element != 0
-    //         // 1. No Solution
-    //         // [1 2 1 2] [1]
-    //         // [0 1 1 2] [0]
-    //         // [0 0 0 2] [-1]
-    //         // 2. Unique Solution
-    //         // 1 1 1 0
-    //         // 0 1 -1 1
-    //         // 0 0 1 1
-    //         if (Func.getElmt(M, M.rows - 1, M.cols - 1) != 0) {
-    //             j = M.cols - 1;
-    //             while (!foundSol && j >= 0) {
-    //                 // Case 1.2
-    //                 if (Func.getElmt(M, M.rows - 1, j) != 0) {
-    //                     unique = true;
-    //                     foundSol = true;
-    //                 }
-    //                 // Case 1.1 = always 0 and always !foundSol
-    //                 --j;
-    //             }
-    //         }
+// // Check the last row
+// // Case 1 : last element != 0
+// // 1. No Solution
+// // [1 2 1 2] [1]
+// // [0 1 1 2] [0]
+// // [0 0 0 2] [-1]
+// // 2. Unique Solution
+// // 1 1 1 0
+// // 0 1 -1 1
+// // 0 0 1 1
+// if (Func.getElmt(M, M.rows - 1, M.cols - 1) != 0) {
+// j = M.cols - 1;
+// while (!foundSol && j >= 0) {
+// // Case 1.2
+// if (Func.getElmt(M, M.rows - 1, j) != 0) {
+// unique = true;
+// foundSol = true;
+// }
+// // Case 1.1 = always 0 and always !foundSol
+// --j;
+// }
+// }
 
-    //         // Case 2 : last element == 0
-    //         // 3. Many Solution
-    //         // 1 2 1 1
-    //         // 0 1 1 2
-    //         // 0 0 0 0
-    //         if (Func.getElmt(M, M.rows - 1, M.cols - 1) == 0) {
-    //             for (j = M.cols - 1; j >= 0; --j) {
-    //                 if (Func.getElmt(M, M.rows - 1, j) != 0) {
-    //                     break;
-    //                 } else {
-    //                     foundSol = true;
-    //                     unique = false;
-    //                 }
-    //             }
-    //         }
+// // Case 2 : last element == 0
+// // 3. Many Solution
+// // 1 2 1 1
+// // 0 1 1 2
+// // 0 0 0 0
+// if (Func.getElmt(M, M.rows - 1, M.cols - 1) == 0) {
+// for (j = M.cols - 1; j >= 0; --j) {
+// if (Func.getElmt(M, M.rows - 1, j) != 0) {
+// break;
+// } else {
+// foundSol = true;
+// unique = false;
+// }
+// }
+// }
 
-    //         // PRINT SOLUTION
-    //         double[] solution = new double[M.rows];
-    //         if (!foundSol) {
-    //             // No solution
-    //             System.out.println("SPL tidak memiliki solusi.");
-    //         } else if (foundSol && unique) {
-    //             // Find the unique solution
-    //             for (i = M.rows - 1; i >= 0; --i) {
-    //                 double sum = 0.0;
-    //                 for (j = i + 1; j < M.rows; ++j) {
-    //                     sum = sum + (Func.getElmt(M, i, j) * solution[j]);
-    //                 }
-    //                 solution[i] = (Func.getElmt(M, i, M.rows - 1) - sum) / Func.getElmt(M, i, i);
-    //             }
+// // PRINT SOLUTION
+// double[] solution = new double[M.rows];
+// if (!foundSol) {
+// // No solution
+// System.out.println("SPL tidak memiliki solusi.");
+// } else if (foundSol && unique) {
+// // Find the unique solution
+// for (i = M.rows - 1; i >= 0; --i) {
+// double sum = 0.0;
+// for (j = i + 1; j < M.rows; ++j) {
+// sum = sum + (Func.getElmt(M, i, j) * solution[j]);
+// }
+// solution[i] = (Func.getElmt(M, i, M.rows - 1) - sum) / Func.getElmt(M, i, i);
+// }
 
-    //             // Print the solution
-    //             for (i = 0; i < solution.length; i++) {
-    //                 System.out.println("x" + (i + 1) + " = " + solution[i]);
-    //             }
-    //         } else if (foundSol && !unique) {
-    //             // ADUH GATAU PARAMETRIK GIMANA
-    //         }
+// // Print the solution
+// for (i = 0; i < solution.length; i++) {
+// System.out.println("x" + (i + 1) + " = " + solution[i]);
+// }
+// } else if (foundSol && !unique) {
+// // ADUH GATAU PARAMETRIK GIMANA
+// }
 
-    //     }
+// }
 
-    //     public static void SPLGaussJordan(Matrix M) {
-    //         M = GaussJordan(M);
+// public static void SPLGaussJordan(Matrix M) {
+// M = GaussJordan(M);
 
-    //         // CHECK SOLUTION TYPE
-    //         boolean foundSol = false;
-    //         boolean unique = false;
-    //         int i, j;
+// // CHECK SOLUTION TYPE
+// boolean foundSol = false;
+// boolean unique = false;
+// int i, j;
 
-    //         // PRINT SOLUTION
-    //         double[] solution = new double[M.rows];
-    //         if (!foundSol) {
-    //             // No solution --> Output = null;
-    //             System.out.println("SPL tidak memiliki solusi.");
-    //             solution = null;
-    //         } else if (foundSol && unique) {
-    //             // Find the unique solution
-    //             for (i = M.rows - 2; i >= 0; --i) {
-    //                 double sum = 0.0;
-    //                 for (j = i + 1; j < M.rows; ++j) {
-    //                     sum = sum + (Func.getElmt(M, i, j) * solution[j]);
-    //                 }
-    //                 solution[i] = (Func.getElmt(M, i, M.rows - 1) - sum) / Func.getElmt(M, i, i);
-    //             }
+// // PRINT SOLUTION
+// double[] solution = new double[M.rows];
+// if (!foundSol) {
+// // No solution --> Output = null;
+// System.out.println("SPL tidak memiliki solusi.");
+// solution = null;
+// } else if (foundSol && unique) {
+// // Find the unique solution
+// for (i = M.rows - 2; i >= 0; --i) {
+// double sum = 0.0;
+// for (j = i + 1; j < M.rows; ++j) {
+// sum = sum + (Func.getElmt(M, i, j) * solution[j]);
+// }
+// solution[i] = (Func.getElmt(M, i, M.rows - 1) - sum) / Func.getElmt(M, i, i);
+// }
 
-    //             // Print the solution
-    //             for (i = 0; i < solution.length; i++) {
-    //                 System.out.println("x" + (i + 1) + " = " + solution[i]);
-    //             }
-    //         } else if (foundSol && !unique) {
-    //             // ADUH GATAU PARAMETRIK GIMANA
-    //         }
+// // Print the solution
+// for (i = 0; i < solution.length; i++) {
+// System.out.println("x" + (i + 1) + " = " + solution[i]);
+// }
+// } else if (foundSol && !unique) {
+// // ADUH GATAU PARAMETRIK GIMANA
+// }
 
-    //     }
-    // }
+// }
+// }
