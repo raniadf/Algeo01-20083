@@ -5,6 +5,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 
 public class Invers {
+    /** SOLVE SPL (INVERS)
+     * Menemukan solusi sistem persamaan linear (valid apabila sistem memiliki solusi unik)
+     * @param m matriks yang ingin dicari solusinya
+     * @return array of double berisi solusi
+     */
     public static String[] solveSPL(Matrix m){
         String[] result = new String[m.rows];
         String print = "<html><center>";
@@ -44,7 +49,7 @@ public class Invers {
         return result;
     }
 
-    /** ADJOIN
+    /** INVERSE (ADJOINT)
      * Mengembalikan inverse dari matriks dengan metode kofaktor/adjoin
      * Prekondisi: matriks persegi (isSquare(m))
      * @param m matriks yang ingin dicari inversnya
@@ -71,7 +76,7 @@ public class Invers {
         return inverseMat;
     }
 
-    /** GAUSS JORDAN
+    /** INVERSE (GAUSS JORDAN)
      * Mengembalikan inverse dari matriks dengan metode Gauss Jordan
      * Prekondisi: matriks persegi (isSquare(m))
      * @param m matriks yang ingin dicari inversnya
