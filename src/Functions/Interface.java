@@ -153,6 +153,8 @@ public class Interface {
             else{
                 Func.writeMatrix(m);
             }
+        } else{
+            return;
         }
     }
 
