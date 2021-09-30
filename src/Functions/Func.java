@@ -416,7 +416,7 @@ public class Func{
             } else if (pivot == 0 && tempPivot != 0) {
                 pivot = tempPivot;
                 switchCount++;
-                switchOBE(m, i, --z);
+                switchOBE(m, i + 1, --z + 1); // Baris yang ingin diproses = indeks + 1
             }
 
             // Setelah dikali pivot, 0-kan semua elemen yang sekolom dan di
@@ -425,7 +425,7 @@ public class Func{
                 firstElmt = getElmt(m, j, i);
                 constant = -1 * firstElmt / pivot;
 
-                addOBE(m, j, i, constant);
+                addOBE(m, j + 1, i + 1, constant); // Baris yang ingin diproses = indeks + 1
             }
         }
 

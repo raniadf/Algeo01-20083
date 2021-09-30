@@ -49,6 +49,29 @@ public class Determinant {
      * @return nilai determinan dari matriks m, NaN jika m bukan matriks persegi
      */
     public static double rowRed(Matrix m) {
+        double det = 1.0;
+        int switchCount;
+        Matrix tempMat;
+
+        tempMat = Func.copyMatrix(m);
+
+        if (!Func.isSquare(m)) {
+            JOptionPane.showMessageDialog(null, "Determinan tidak dapat dihitung karena bukan matriks persegi.", 
+                                            "GAGAL MENGHITUNG DETERMINAN MATRIKS", JOptionPane.WARNING_MESSAGE);
+            return Double.NaN;
+        }
+
+        int i;
+        switchCount = Func.makeSgtgAtas(tempMat);
+        for (i = 0; i < tempMat.rows; ++i) {
+            det *= Func.getElmt(tempMat, i, i);
+        }
+        
+        det *= Math.pow(-1, switchCount);
+        
+        return det;
+    }
+        /*
         // validasi matriks persegi
         if (!Func.isSquare(m)) {
             JOptionPane.showMessageDialog(null, "Determinan tidak dapat dihitung karena bukan matriks persegi.", 
@@ -115,30 +138,6 @@ public class Determinant {
         }
 
         return (det * switchCount);
-    }
-    
-        /*
-        double det = 1.0;
-        int switchCount;
-        Matrix tempMat;
-
-        tempMat = Func.copyMatrix(m);
-
-        if (!Func.isSquare(m)) {
-            JOptionPane.showMessageDialog(null, "Determinan tidak dapat dihitung karena bukan matriks persegi.", 
-                                            "GAGAL MENGHITUNG DETERMINAN MATRIKS", JOptionPane.WARNING_MESSAGE);
-            return Double.NaN;
-        }
-
-        int i;
-        switchCount = Func.makeSgtgAtas(tempMat);
-        for (i = 0; i < tempMat.rows; ++i) {
-            det *= Func.getElmt(tempMat, i, i);
-        }
-
-        det *= Math.pow(-1, switchCount);
-
-        return det;
-        */
+    */
 
 }
