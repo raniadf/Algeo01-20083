@@ -262,7 +262,9 @@ public class Gaussian {
                 solniq =  "x" + (i + 1) + " = " + solution[i];
                 strUniqueSol[i] = solniq;
             }
-            JOptionPane.showMessageDialog(null, print, "Hasilnya Nih :V", JOptionPane.PLAIN_MESSAGE);
+            JLabel label = new JLabel(print);
+            label.setHorizontalAlignment(SwingConstants.CENTER);
+            JOptionPane.showMessageDialog(null, label, "Hasilnya Nih :V", JOptionPane.PLAIN_MESSAGE);
             return strUniqueSol;
         }
         // Case 3 : Many Solution
@@ -424,7 +426,7 @@ public class Gaussian {
 
             // Print non head element
             for (i = 0; i<idxElementUsed.length; i++){
-                if (idxElementUsed[i]==0 && StrValid(strManySol, i))){
+                if (idxElementUsed[i]==0 && StrValid(strManySol, i)){
                     print += "x" + (i + 1) + " = " + getLetter(letter) + "<br>";
                     sol = "x" + (i + 1) + " = " + getLetter(letter);
                     letter++;
