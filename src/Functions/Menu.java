@@ -68,10 +68,10 @@ public class Menu {
                 resultDet = Determinant.cofExp(m);
                 break;
             }
-            if (resultDet == Double.NaN) m = new Matrix(0, 0);
+            if (resultDet == Double.NaN) mnew = new Matrix(0, 0);
             else {
-                m = new Matrix(1, 1);
-                Func.setElmt(m, 0, 0, resultDet);
+                mnew = new Matrix(1, 1);
+                Func.setElmt(mnew, 0, 0, resultDet);
             }
             break;
 
@@ -108,9 +108,9 @@ public class Menu {
             break;
         }
 
-        if (resultApprox == null || mnew.rows == m.rows + 1 || resultDet == Double.NaN){
-            return;
-        }
+        if ((option == 1 || option == 4 || option == 5) && resultApprox == null) return;
+        else if (option == 2 && resultDet == Double.NaN) return;
+        else if (option == 3 && mnew.rows == m.rows + 1) return;
 
         if (option == 2){
             String temp = "<html><center>Hasil determinannya adalah: " + resultDet;

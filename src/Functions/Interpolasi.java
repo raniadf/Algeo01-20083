@@ -43,7 +43,7 @@ public class Interpolasi {
 
         String temp = "<html><center>";
         DecimalFormat df = new DecimalFormat("####0.0000");
-        String equation = ("<html><center>p" + String.valueOf(Func.getLastIdxRow(m)) + "(x) = ");
+        String equation = ("p" + String.valueOf(Func.getLastIdxRow(m)) + "(x) = ");
         for (i = 0; i < result.length; i++){
             if (i == 0){
                 equation += df.format(result[i]) + " + ";
