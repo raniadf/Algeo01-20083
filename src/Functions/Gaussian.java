@@ -6,7 +6,11 @@ import java.lang.Math;
 
 public class Gaussian {
 
-    // Gauss elimination -> Output : Matrix
+    /** GAUSS ELIMINATION
+     * Membentuk matriks eselon baris dengan metode eliminasi Gauss
+     * @param M matriks augmented
+     * @return matriks eselon baris
+     */
     public static Matrix Gauss(Matrix M) {
         // Set index
         int i = 0;
@@ -70,7 +74,11 @@ public class Gaussian {
         return M;
     }
 
-    // Gauss Jordan Elimination -> Output : Matrix
+    /** GAUSS-JORDAN ELIMINATION
+     * Membentuk matriks eselon baris tereduksi dengan metode eliminasi Gauss-Jordan
+     * @param M matriks augmented
+     * @return matriks eselon baris tereduksi
+     */
     public static Matrix GaussJordan(Matrix M) {
         // Set index
         int i, j;
@@ -100,7 +108,11 @@ public class Gaussian {
         return M;
     }
 
-    // Find the solution for unique SPL
+    /** SOLVE UNIQUE SPL
+     * Mencari solusi unik dari sebuah SPL
+     * @param M matriks SPL
+     * @return array of double berisi solusi SPL yang unik
+     */
     public static double[] UniqueSPL(Matrix M) {
         // Create a double to put all the solution
         double[] solution = new double[M.cols - 1];
@@ -146,12 +158,21 @@ public class Gaussian {
         return solution;
     }
 
-    // Return character for parametric solution
+    /** GET LETTER
+     * Mengembalikan karakter dari sebuah nilai integer, digunakan untuk solusi parametrik
+     * @param i integer yang ingin diubah ke karakter
+     * @return karakter dari integer
+     */
     public static char getLetter(int i) {
         return (char) (i + 65);
     }
 
-    // return valid if idx is not a part of a double array
+    /** IS INDEX VALID?
+     * Memvalidasi apakah sebuah indeks tidak terdapat dalam sebuah array double
+     * @param checkIdx array double terkait
+     * @param idx indeks yang ingin dicek keberadaannya
+     * @return boolean, benar/salah sebuah indeks tidak terdapat dalam sebuah array double
+     */
     public static boolean IdxValid(double[] checkIdx, int idx) {
         boolean valid = true;
 
@@ -163,7 +184,12 @@ public class Gaussian {
         return valid;
     }
     
-    // return valid if idx is not a part of a string array
+    /** IS STRING VALID?
+     * Memvalidasi apakah sebuah indeks tidak terdapat dalam sebuah array string
+     * @param checkStr array string terkait
+     * @param idx indeks yang ingin dicek keberadaannya
+     * @return boolean, benar/salah sebuah indeks tidak terdapat dalam sebuah array string
+     */
     public static boolean StrValid(String[] checkStr, int idx) {
         boolean valid = true;
 
@@ -175,7 +201,12 @@ public class Gaussian {
         return valid;
     }
 
-    // Solve SPL
+    /** SOLVE SPL (GAUSS/GAUSS-JORDAN)
+     * Menyelesaikan SPL dalam bentuk matriks eselon baris/eleson baris tereduksi sesuai jenis solusinya
+     * @param M matriks SPL
+     * @param SPLtype metode penyelesaian SPL (GAUSS/GAUSS-JORDAN)
+     * @return array of string berisi solusi SPL
+     */
     public static String[] SolveSPL(Matrix M, String SPLtype) {
         
         // Create double array to put all the solution
