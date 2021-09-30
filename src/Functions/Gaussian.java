@@ -148,7 +148,7 @@ public class Gaussian {
 
     // Return character for parametric solution
     public static char getLetter(int i) {
-        return (char) (i + 64);
+        return (char) (i + 65);
     }
 
     // return valid if idx is not a part of a double array
@@ -268,6 +268,7 @@ public class Gaussian {
         // Case 3 : Many Solution
         else {
             // Create double array
+            int letter = 0;
             double[] temp = new double[M.cols];
             double[] idxElementUsed = new double[M.cols-1];
             
@@ -408,10 +409,11 @@ public class Gaussian {
                                 }
                                 MainElmt = true;
                             }
+                            
                         }
-                        
+
                         if (StrValid(strManySol, firstIdx)){
-                                strManySol[firstIdx] = sol;
+                            strManySol[firstIdx] = sol;
                         }
                         print += "<br>";
                     }
@@ -421,10 +423,11 @@ public class Gaussian {
             }
 
             // Print non head element
-            for (i = 1; i<idxElementUsed.length; i++){
+            for (i = 0; i<idxElementUsed.length; i++){
                 if (idxElementUsed[i]==0){
-                    print += "x" + (i + 1) + " = " + getLetter(i) + "<br>";
-                    sol = "x" + (i + 1) + " = " + getLetter(i);
+                    print += "x" + (i + 1) + " = " + getLetter(letter) + "<br>";
+                    sol = "x" + (i + 1) + " = " + getLetter(letter);
+                    letter++;
                 }
                 
                 if (StrValid(strManySol, i)){
