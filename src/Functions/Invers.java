@@ -48,6 +48,11 @@ public class Invers {
      * @return matriks invers dari m
      */
     public static Matrix adjoint(Matrix m) {
+        if (Determinant.cofExp(m) == 0){
+            JOptionPane.showMessageDialog(null, "Tidak memiliki solusi!", "DETERMINAN = 0", JOptionPane.WARNING_MESSAGE);
+            Interface.user();
+            return m;
+        }
         Matrix adjointMat;
         Matrix inverseMat = new Matrix(m.rows, m.cols);
 
@@ -74,6 +79,11 @@ public class Invers {
      * @return matriks invers dari m
      */
     public static Matrix gaussJordan(Matrix m) {
+        if (Determinant.cofExp(m) == 0){
+            JOptionPane.showMessageDialog(null, "Tidak memiliki solusi!", "DETERMINAN = 0", JOptionPane.WARNING_MESSAGE);
+            Interface.user();
+            return m;
+        }
         Matrix inverseMat = new Matrix(m.rows, m.cols);
         Matrix temp = new Matrix(m.rows, m.cols * 2);
 
