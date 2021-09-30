@@ -326,7 +326,7 @@ public class Gaussian {
                 // last column
                 boolean MainElmt = false;
                 if (countOne == 1 && firstIdx != (M.cols - 1)) {
-                    print = "x" + (firstIdx + 1) + " = 0<br>";
+                    print += "x" + (firstIdx + 1) + " = 0<br>";
                     sol = "x" + (firstIdx + 1) + " = 0";
                     if (IdxValid(idxElementUsed, firstIdx)) {
                         idxElementUsed[firstIdx] = firstIdx;
@@ -341,7 +341,7 @@ public class Gaussian {
                 if (countOne > 1) {
                     // x.. = last column
                     if (countOne == 2 && temp[temp.length - 1] == 1) {
-                        print = "x" + (firstIdx + 1) + " = " + Func.getElmt(M, row, temp.length - 1) + "<br>";
+                        print += "x" + (firstIdx + 1) + " = " + Func.getElmt(M, row, temp.length - 1) + "<br>";
                         sol = "x" + (firstIdx + 1) + " = " + Func.getElmt(M, row, temp.length - 1);
                         if (IdxValid(idxElementUsed, firstIdx)) {
                             idxElementUsed[firstIdx] = firstIdx;
@@ -408,10 +408,10 @@ public class Gaussian {
                                 }
                                 MainElmt = true;
                             }
-                            
-                            if (StrValid(strManySol, firstIdx)){
+                        }
+                        
+                        if (StrValid(strManySol, firstIdx)){
                                 strManySol[firstIdx] = sol;
-                            }
                         }
                         print += "<br>";
                     }
