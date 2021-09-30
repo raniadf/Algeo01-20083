@@ -511,7 +511,7 @@ public class Func{
         int idx = -1;
 
         // Forward loop
-        for (j = 0; j < M.cols - 1; ++j) {
+        for (j = 0; j < M.cols; ++j) {
             // If found 1 -> idx = j
             if (Func.getElmt(M, row, j) == 1) {
                 idx = j;
