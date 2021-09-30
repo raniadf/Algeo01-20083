@@ -49,6 +49,75 @@ public class Determinant {
      * @return nilai determinan dari matriks m, NaN jika m bukan matriks persegi
      */
     public static double rowRed(Matrix m) {
+        // validasi matriks persegi
+        if (!Func.isSquare(m)) {
+            JOptionPane.showMessageDialog(null, "Determinan tidak dapat dihitung karena bukan matriks persegi.", 
+                                            "GAGAL MENGHITUNG DETERMINAN MATRIKS", JOptionPane.WARNING_MESSAGE);
+            return Double.NaN;
+        }
+
+        int i = 0;
+        int j;
+        int k;    // variable yang digunakan untuk mengecek baris setelahnya
+        double koef;
+        boolean flag;
+        double switchCount = 1.0;
+        Matrix tempMat;
+        
+        tempMat = Func.copyMatrix(m);
+
+        // perulangan dari baris pertama-terakhir dan kolom pertama-sebelum terakhir
+        for (j = 0; ((i <= Func.getLastIdxRow(tempMat)) && (j < Func.getLastIdxCol(tempMat))); j++){
+               
+            boolean NextProcess = true;        // indikator untuk lanjut ke proses berikutnya
+               
+            if (Func.getElmt(tempMat, i, j) == 0){
+
+                k = i + 1;
+                flag = false;
+                while ((!flag) && (k <= Func.getLastIdxRow(tempMat))){
+                    // lakukan perulangan sampai ditemukan elemen kolom j yang != 0
+                    if (Func.getElmt(tempMat, k, j) != 0){
+                        flag = true;
+                    } 
+                    else {
+                        k++;
+                    }
+                }
+
+                // ketika ditemukan elemen != 0 di baris k, maka dilakukan pertukaran
+                if (flag){
+                    Func.switchOBE(tempMat, i, k);
+                    switchCount *= (-1);
+                } 
+                else {
+                    NextProcess = false;
+                }
+            }
+
+            if (NextProcess){
+                // proses pembuatan segitiga atas
+                switchCount *= (Func.getElmt(tempMat, i, j));
+                Func.divideOBE(tempMat, i, Func.getElmt(tempMat, i, j));
+                for (k = i + 1; k <= Func.getLastIdxRow(tempMat); k++){
+                    koef = -(Func.getElmt(tempMat, k, j) / Func.getElmt(tempMat, i, j));
+                    Func.addOBE(tempMat, i, k, koef);
+                }
+                i++;
+            }  
+        }
+
+        double det = Func.getElmt(tempMat, 0, 0);
+
+        int x;
+        for (x = 1; x <= Func.getLastIdxRow(tempMat); x++){
+            det *= Func.getElmt(tempMat, x, x);
+        }
+
+        return (det * switchCount);
+    }
+    
+        /*
         double det = 1.0;
         int switchCount;
         Matrix tempMat;
@@ -70,6 +139,6 @@ public class Determinant {
         det *= Math.pow(-1, switchCount);
 
         return det;
-    }
+        */
 
 }
