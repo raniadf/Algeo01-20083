@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 
 public class Invers {
-    /** SOLVE SPL (INVERS)
+    /** SOLVE SPL (INVERSE)
      * Menemukan solusi sistem persamaan linear (valid apabila sistem memiliki solusi unik)
      * @param m matriks yang ingin dicari solusinya
      * @return array of double berisi solusi

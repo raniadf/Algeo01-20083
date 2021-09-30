@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 
 public class Determinant {
 
-    /** EKSPANSI KOFAKTOR
+    /** COFACTOR EXPANSION
      * Metode menghitung determinan matriks dengan ekspansi kofaktor
      * @param m matriks yang ingin dihitung determinannya
      * @return nilai determinan dari matriks m, NaN jika m bukan matriks persegi
@@ -42,7 +42,7 @@ public class Determinant {
         return det;
     }
 
-    /** REDUKSI BARIS
+    /** ROW REDUCTION
      * Metode menghitung determinan matriks dengan reduksi baris pada matriks m
      * @param m matriks yang ingin dihitung determinannya
      * @return nilai determinan dari matriks m, NaN jika m bukan matriks persegi
