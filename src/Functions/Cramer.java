@@ -32,7 +32,7 @@ public class Cramer {
         }
 
         // Mencari determinan matriks A
-        double detA = Determinant.cofExp(A);
+        double detA = Determinant.rowRed(A);
         if (detA == 0){
             JOptionPane.showMessageDialog(null, "Sistem tidak memiliki solusi atau tidak bisa diselesaikan dengan metode ini!", "DETERMINAN = 0", JOptionPane.WARNING_MESSAGE);
             return store;
@@ -45,8 +45,8 @@ public class Cramer {
             for (i = 0; i <= Func.getLastIdxRow(A); i++){
                 Func.setElmt(Ai, i, j, Func.getElmt(b, i, 0));
             }
-            double detAi = Determinant.cofExp(Ai);
-            DecimalFormat df = new DecimalFormat("####0.00");
+            double detAi = Determinant.rowRed(Ai);
+            DecimalFormat df = new DecimalFormat("####0.000");
             print += "x" + (j+1) + " = " + df.format(detAi/detA) + "<br>";
             store[j] = df.format(detAi/detA);
         }
