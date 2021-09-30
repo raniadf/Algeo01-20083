@@ -231,7 +231,7 @@ public class Func{
         JOptionPane.showMessageDialog(null, label, "Hasilnya Nih :V", JOptionPane.PLAIN_MESSAGE);
     }
 
-    /* ===== SELEKTOR: GET & SET ===== */
+    /* ===== SELECTORS: GET & SET ===== */
     /** GET ELEMENT OF MATRIX
      * Mengakses elemen pada baris i dan kolom j dari matriks
      * @param m matriks yang ingin diakses elemennya
@@ -248,21 +248,40 @@ public class Func{
      * @param m matriks yang ingin diisi elemennya
      * @param i indeks baris pada matriks
      * @param j indeks kolom pada matriks
+     * @param fill isi/nilai elemen yang baru
      */
     public static void setElmt(Matrix m, int i, int j, double fill){
         m.contents[i][j] = fill;
     }
 
+    /** GET LAST INDEX OF ROWS
+     * Mengakses indeks terakhir dari baris matriks
+     * @param m matriks yang ingin dicari indeks terakhir dari barisnya
+     * @return integer, indeks terakhir dari baris matriks
+     */
     public static int getLastIdxRow(Matrix m){
         return m.rows - 1;
     }
 
+    /** GET LAST INDEX OF COLUMNS
+     * Mengakses indeks terakhir dari kolom matriks
+     * @param m matriks yang ingin dicari indeks terakhir dari kolomnya
+     * @return integer, indeks terakhir dari kolom matriks
+     */
     public static int getLastIdxCol(Matrix m){
         return m.cols - 1;
     }
 
-    /* OPERASI BARIS ELEMENTER */
-    // parameter row, BUKAN idx row
+    /* ===== OPERASI BARIS ELEMENTER ===== */
+    // Parameter yang digunakan adalah row, BUKAN idx row
+    // Jadi, untuk menggunakannya, parameter harus diisi dengan baris, yaitu indeks + 1
+
+    /** MULTIPLY ROW (OBE)
+     * Melakukan perkalian terhadap baris pada matriks dengan multiplier
+     * @param m matriks terkait
+     * @param row baris pada matriks yang elemennya ingin dikali dengan multiplier
+     * @param multiplier konstanta pengali
+     */
     public static void multiplyOBE(Matrix m, int row, double multiplier){
         int j;
         for (j = 0; j <= getLastIdxCol(m); j++){
@@ -271,6 +290,12 @@ public class Func{
         }
     }
     
+    /** DIVIDE ROW (OBE)
+     * Melakukan pembagian terhadap baris pada matriks dengan divider
+     * @param m matriks terkait
+     * @param row baris pada matriks yang elemennya ingin dibagi dengan divider
+     * @param divider konstanta pembagi
+     */
     public static void divideOBE(Matrix m, int row, double divider) {
         int j;
         for (j = 0; j <= getLastIdxCol(m); j++) {
@@ -279,12 +304,25 @@ public class Func{
         }
     }
 
+    /** SWITCH ROW (OBE)
+     * Menukarkan elemen-elemen pada baris satu dengan elemen pada baris lain
+     * @param m matriks terkait
+     * @param row1 baris pada matriks yang elemennya ingin ditukar dengan elemen pada baris lain
+     * @param row2 baris lain, objek pertukaran
+     */
     public static void switchOBE(Matrix m, int row1, int row2){
         double[] temp = m.contents[row1 - 1];
         m.contents[row1 - 1] = m.contents[row2 - 1];
         m.contents[row2 - 1] = temp;
     }
 
+    /** ADD ROW (OBE)
+     * Melakukan penjumlahan antara baris satu dengan hasil perkalian baris lain dengan multiplier
+     * @param m matriks terkait
+     * @param row1 baris pada matriks yang elemennya dijumlah dengan hasil kali baris lain dengan multiplier
+     * @param row2 baris lain, objek penjumlah
+     * @param multiplier konstanta pengali
+     */
     public static void addOBE(Matrix m, int row1, int row2, double multiplier){
         int j;
         double addedVal;
@@ -294,12 +332,22 @@ public class Func{
         }
     }
 
-    /* VALIDASI */
+    /* ===== VALIDATION ===== */
+    /** IS MATRIX SQUARE?
+     * Memvalidasi apakah sebuah matriks merupakan matriks persegi
+     * @param m matriks yang ingin divalidasi
+     * @return boolean, benar/salah sebuah matriks merupakan matriks persegi
+     */
     public static boolean isSquare(Matrix m){
         return (m.rows == m.cols);
     }
 
-    /* MANIPULASI MATRIX LAINNYA */
+    /* ===== MATRIX MANIPULATION ===== */
+    /** COPY MATRIX
+     * Menyalin matriks
+     * @param m matriks yang ingin disalin
+     * @return matriks salinan
+     */
     public static Matrix copyMatrix(Matrix m){
         Matrix copy = new Matrix(m.rows, m.cols);
         int i, j;
@@ -311,6 +359,12 @@ public class Func{
         return copy;
     }
 
+    /** MULTIPLY MATRIX
+     * Mengalikan dua buah matriks
+     * @param m1 matriks yang ingin dikalikan
+     * @param m2 matriks pengali
+     * @return matriks hasil kali
+     */
     public static Matrix multiply(Matrix m1, Matrix m2){
         Matrix m3 = new Matrix(m1.rows, m2.cols);
         for (int i = 0; i <= getLastIdxRow(m1); i++){
@@ -323,16 +377,22 @@ public class Func{
         return m3;
     }
 
-    /* FUNGSI-FUNGSI HELPER LAINNYA */
-    /**
+    /* HELPER FUNCTIONS */
+    /** NUMBER OF ELEMENTS
      * Mengembalikan banyaknya elemen pada matriks
+     * @param m matriks yang ingin dihitung jumlah elemennya
+     * @return integer, jumlah elemen pada matriks
      * */
     public static int nbElmt(Matrix m){
         return (m.rows * m.cols);
     }
 
-    /**
-     * Mengembalikan matriks minor
+    /** MAKE MINOR
+     * Membuat matriks minor dari matriks asal
+     * @param m matriks yang ingin dibuat minornya
+     * @param rowAcuan baris acuan
+     * @param colAcuan kolom acuan
+     * @return matriks minor dari m
      * */
     public static Matrix makeMinor(Matrix m, int rowAcuan, int colAcuan){
         Matrix minor;
@@ -363,9 +423,11 @@ public class Func{
         return minor;
     }
 
-    /**
+    /** MAKE TOP TRIANGLE
      * Mengubah matriks pemanggil menjadi matriks segitiga atas
      * dan mengembalikan banyaknya proses pertukaran baris pada prosesnya
+     * @param m matriks yang ingin diubah menjadi matriks segitiga atas
+     * @return integer, banyaknya pertukaran baris
      * */
     public static int makeSgtgAtas(Matrix m) {
         int i, j, switchCount = 0;
@@ -408,8 +470,10 @@ public class Func{
         return switchCount;
     }
 
-    /**
+    /** TRANSPOSE MATRIX
      * Mengembalikan matriks transpose
+     * @param m matriks yang ingin dicari transpose-nya
+     * @return matriks transpose dari m
      * */
     public static Matrix transpose(Matrix m) {
         int i, j;
@@ -423,8 +487,10 @@ public class Func{
         return transposeMat;
     }
 
-    /**
-     * Mengembalikan matriks kofaktor
+    /** MAKE COFACTOR MATRIX
+     * Membuat matriks kofaktor
+     * @param m matriks yang ingin dibuat kofaktornya
+     * @return matriks kofaktor dari m
      * */
     public static Matrix makeCofactor(Matrix m) {
         int i, j, itemp, jtemp, tempRow, tempCol;
@@ -458,8 +524,11 @@ public class Func{
         return cofactorMat;
     }
 
-    /**
-     * Mengembalikan matriks dengan decimal 2 dan -0 diubah menjadi 0
+    /** ZERO AND ROUND
+     * Mengembalikan matriks dengan elemen yang sudah dibulatkan
+     * dan elemen bernilai -0 sudah diubah menjadi 0
+     * @param m matriks yang ingin diproses
+     * @return matriks yang sudah dibulatkan dan dibuat positif nol elemen-elemennya
      * */
     public static Matrix ZeroNRound(Matrix M) {
         for (int i = 0; i < M.rows; ++i) {
@@ -477,8 +546,11 @@ public class Func{
         return M;
     }
 
-    /**
+    /** FIND LEADING ONE
      * Mengembalikan index dari leading one
+     * @param m matriks terkait
+     * @param row indeks baris yang ingin dicari angka 1 pertamanya
+     * @return integer, indeks dari angka 1 pertama pada baris dalam matriks
      * */
     public static int findLeadingOne(Matrix M, int row) {
         // Set j for column loop
