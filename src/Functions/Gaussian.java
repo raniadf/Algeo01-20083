@@ -358,7 +358,7 @@ public class Gaussian {
                         sol = "";
 
                         // Column loop
-                        for (i = 0; i < temp.length - 1; ++i) {
+                        for (i = 0; i < temp.length; ++i) {
                             // Get out of the loop if temp[i] != 1
                             if (temp[i] == 0){
                                 continue;
