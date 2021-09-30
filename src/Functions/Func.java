@@ -15,7 +15,12 @@ import java.lang.String;
 
 
 public class Func{
-    /* READ-WRITE FILES & DISPLAY RESULT */
+    /* ===== READ-WRITE FILES & DISPLAY RESULT ===== */
+    /** INPUT MATRIX
+     * Menerima input dari user dan mengembalikan matriks sesuai kebutuhan user
+     * @param inputType input dari user berupa string yang diterima melalui interface
+     * @return matriks dengan ukuran dan isi elemen sesuai input dari user
+     */
     public static Matrix inputMatrix(int inputType){
         int m, n;
         String strm, strn;
@@ -111,6 +116,10 @@ public class Func{
         return matrix;
     }
 
+    /** READ MATRIX
+     * Membaca file .txt dengan nama sesuai input user
+     * @return matriks yang diterima dari isi file .txt
+     */
     public static Matrix readMatrix(){
         String filename = JOptionPane.showInputDialog(null, "Masukkan nama file:", "Read File", JOptionPane.PLAIN_MESSAGE);
         if (filename == null){
@@ -151,6 +160,10 @@ public class Func{
         }
     }
 
+    /** WRITE MATRIX
+     * Menulis dan menyimpan matriks yang diterima dari file .txt
+     * @param m matriks yang ingin ditulis dan disimpan
+     */
     public static void writeMatrix(Matrix m){
         String filename = JOptionPane.showInputDialog(null, "Simpan file dengan nama ______.txt", JOptionPane.PLAIN_MESSAGE);
         if (filename == null) return;
@@ -194,6 +207,10 @@ public class Func{
         }
     }
 
+    /** DISPLAY MATRIX
+     * Menampilkan setiap elemen matriks pada terminal
+     * @param m matriks yang ingin ditampilkan pada terminal
+     */
     public static void displayMatrix(Matrix m){
         DecimalFormat df = new DecimalFormat("####0.00");
         String temp = "<html><center>";
@@ -214,11 +231,24 @@ public class Func{
         JOptionPane.showMessageDialog(null, label, "Hasilnya Nih :V", JOptionPane.PLAIN_MESSAGE);
     }
 
-    /* SELEKTOR: GET & SET */
+    /* ===== SELEKTOR: GET & SET ===== */
+    /** GET ELEMENT OF MATRIX
+     * Mengakses elemen pada baris i dan kolom j dari matriks
+     * @param m matriks yang ingin diakses elemennya
+     * @param i indeks baris pada matriks
+     * @param j indeks kolom pada matriks
+     * @return double, elemen matriks yang berada pada baris i dan kolom j
+     */
     public static double getElmt(Matrix m, int i, int j){
         return m.contents[i][j];
     }
 
+    /** SET ELEMENT OF MATRIX
+     * Mengisi matriks baris i dan kolom j dengan elemen baru
+     * @param m matriks yang ingin diisi elemennya
+     * @param i indeks baris pada matriks
+     * @param j indeks kolom pada matriks
+     */
     public static void setElmt(Matrix m, int i, int j, double fill){
         m.contents[i][j] = fill;
     }
