@@ -234,9 +234,7 @@ public class Gaussian {
         // Case 1 : No Solution
         if (!foundSol) {
             String[] strNoSolution = new String[1];
-            JOptionPane.showMessageDialog(null, "SPL tidak memiliki solusi.", "X Solution Bruv :'v", JOptionPane.WARNING_MESSAGE);
-            strNoSolution[0] = "SPL tidak memiliki solusi";
-            
+            JOptionPane.showMessageDialog(null, "SPL tidak memiliki solusi.", "X Solution Bruv :'v", JOptionPane.WARNING_MESSAGE);            
             return strNoSolution;
         }
         // Case 2 : Unique Solution

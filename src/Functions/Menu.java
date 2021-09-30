@@ -108,7 +108,7 @@ public class Menu {
             break;
         }
 
-        if ((option == 1 || option == 4 || option == 5) && resultApprox == null) return;
+        if ((option == 1 || option == 4 || option == 5) && resultApprox[0] == null) return;
         else if (option == 2 && resultDet == Double.NaN) return;
         else if (option == 3 && mnew.rows == m.rows + 1) return;
 
