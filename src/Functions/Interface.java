@@ -10,9 +10,7 @@ public class Interface {
             option = validasiParse(opt, option);
         }
 
-        if (option == 6 || opt == null){
-            System.exit(0);
-        }
+        if (option == 6 || opt == null) System.exit(0);
 
         String mat = "0";
         int matrix = Integer.parseInt(mat);
@@ -20,47 +18,27 @@ public class Interface {
             mat = JOptionPane.showInputDialog(null, "Pake file atau input manual? \n 1. File \n 2. Input manual");
             matrix = validasiParse(mat, matrix);
         }
-        if (mat == null){
-            return;
-        }
+        if (mat == null) return;
         
         Matrix m;
-        if (matrix == 1){
-            m = Func.readMatrix();
-        }
-        else{
-            if (option == 1){
-                m = Func.inputMatrix("SPL");
-            }
-            else if (option == 2){
-                m = Func.inputMatrix("Determinan");
-            }
-            else if (option == 3){
-                m = Func.inputMatrix("Invers");
-            }
-            else if (option == 4){
-                m = Func.inputMatrix("Interpolasi");
-            }
-            else{
-                m = Func.inputMatrix("Regresi");
-            }
-        }
+        if (matrix == 1) m = Func.readMatrix();
+        else m = Func.inputMatrix(option);
+        if (m.rows == 0 && m.cols == 0) return;
 
+        String opt2 = "0";
+        double resultDet = Double.NaN;
+        int option2 = Integer.parseInt(opt2);
         String[] resultApprox = new String[2];
-        double resultDet = 0;
+        Matrix mnew = new Matrix(m.rows + 1, m.cols);
 
         switch (option){
         case 1:
-            String optSPL = "0";
-            int optionSPL = Integer.parseInt(optSPL);
-            while (optionSPL != 1 && optionSPL != 2 && optionSPL != 3 && optionSPL != 4 && (optSPL != null || optSPL == "")){ 
-                optSPL = JOptionPane.showInputDialog(null, "SPL pake cara apa nih? \n 1. Metode Eliminasi Gauss \n 2. Metode Eliminasi Gauss-Jordan \n 3. Metode Matriks Balikan \n 4. Kaidah Cramer \n");
-                optionSPL = validasiParse(optSPL, optionSPL);
+            while (option2 != 1 && option2 != 2 && option2 != 3 && option2 != 4 && (opt2 != null || opt2 == "")){ 
+                opt2 = JOptionPane.showInputDialog(null, "SPL pake cara apa nih? \n 1. Metode Eliminasi Gauss \n 2. Metode Eliminasi Gauss-Jordan \n 3. Metode Matriks Balikan \n 4. Kaidah Cramer \n");
+                option2 = validasiParse(opt2, option2);
             }
-            if (optSPL == null){
-                return;
-            }
-            switch (optionSPL){
+            if (opt2 == null) return;
+            switch (option2){
             case 1:
                 resultApprox = SPL.SolveSPL(m, "Gauss");
                 break;
@@ -68,27 +46,21 @@ public class Interface {
                 resultApprox = SPL.SolveSPL(m, "Gauss Jordan");
                 break;
             case 3:
-                resultApprox = Invers.solveSPL(m);// NANTI GANTI jadi result = Invers.solveSPL(m); 
+                resultApprox = Invers.solveSPL(m);
                 break;
             case 4:
                 resultApprox = Cramer.solveSPL(m);
                 break;
-            default:
-                resultApprox = Cramer.solveSPL(m); // ini cm biar initialized aja 
             }
             break;
 
         case 2:
-            String optDet = "0";
-            int optionDet = Integer.parseInt(optDet);
-            while (optionDet != 1 && optionDet != 2 && (optDet != null || optDet == "")){
-                optDet = JOptionPane.showInputDialog(null, "Determinan pake cara apa nih? \n 1. Reduksi Baris \n 2. Ekspansi Kofaktor");
-                optionDet = validasiParse(optDet, optionDet);
+            while (option2 != 1 && option2 != 2 && (opt2 != null || opt2 == "")){
+                opt2 = JOptionPane.showInputDialog(null, "Determinan pake cara apa nih? \n 1. Reduksi Baris \n 2. Ekspansi Kofaktor");
+                option2 = validasiParse(opt2, option2);
             }
-            if (optDet == null){
-                return;
-            }
-            switch (optionDet){
+            if (opt2 == null) return;
+            switch (option2){
             case 1:
                 resultDet = Determinant.rowRed(m);
                 break;
@@ -96,29 +68,29 @@ public class Interface {
                 resultDet = Determinant.cofExp(m);
                 break;
             }
-            System.out.println("Determinan adalah: " + resultDet);
-            m = new Matrix(1, 1);
-            Func.setElmt(m, 0, 0, resultDet);
+            if (resultDet == Double.NaN) m = new Matrix(0, 0);
+            else {
+                m = new Matrix(1, 1);
+                Func.setElmt(m, 0, 0, resultDet);
+            }
             break;
+
         case 3:
-            String optInv = "0";
-            int optionInv = Integer.parseInt(optInv);
-            while (optionInv != 1 && optionInv != 2 && (optInv != null || optInv == "")){ 
-                optInv = JOptionPane.showInputDialog(null, "Invers pake cara apa nih? \n 1. Gauss-Jordan \n 2. Adjoin");
-                optionInv = validasiParse(optInv, optionInv);
+            while (option2 != 1 && option2 != 2 && (opt2 != null || opt2 == "")){ 
+                opt2 = JOptionPane.showInputDialog(null, "Invers pake cara apa nih? \n 1. Gauss-Jordan \n 2. Adjoin");
+                option2 = validasiParse(opt2, option2);
             }
-            if (optInv == null){
-                return;
-            }
-            switch (optionInv){
+            if (opt2 == null) return;
+            switch (option2){
             case 1:
-                m = Invers.gaussJordan(m);
+                mnew = Invers.gaussJordan(m);
                 break;
             case 2:
-                m = Invers.adjoint(m);
+                mnew = Invers.adjoint(m);
                 break;
             }
             break;
+
         case 4:
             String x;
             while(true){
@@ -127,25 +99,32 @@ public class Interface {
                     break;
                 }
             }
-            if (x == null){
-                return;
-            }
+            if (x == null) return;
             resultApprox = Interpolasi.solveInterpolasi(m, Double.parseDouble(x));
             break;
+
         case 5:
             resultApprox = Regresi.solveRegresi(m);
             break;
         }
 
-        JOptionPane.showMessageDialog(null, "Hasil ada di command prompt!");
-        int save = JOptionPane.YES_NO_OPTION;
-        save = JOptionPane.showConfirmDialog(null, "Mau disave jadi file .txt ga hasilnya?", "Save File", save);
+        if (resultApprox == null || mnew.rows == m.rows + 1 || resultDet == Double.NaN){
+            return;
+        }
+
+        if (option == 2){
+            String temp = "<html><center>Hasil determinannya adalah: " + resultDet;
+            JOptionPane.showMessageDialog(null, temp, "Hasilnya Nih :V", JOptionPane.PLAIN_MESSAGE);
+        }
+        else if (option == 3) Func.displayMatrix(mnew);
+
+        int save = JOptionPane.showConfirmDialog(null, "Mau disave jadi file txt ga hasilnya?\n\n(hasil akhir akan berupa [input].txt)", "Save File", JOptionPane.YES_NO_OPTION);
         if (save == JOptionPane.YES_OPTION){
             if (option == 1|| option == 4 || option == 5){
                 Func.writeMatrix(resultApprox);
             }
             else{
-                Func.writeMatrix(m);
+                Func.writeMatrix(mnew);
             }
         } else{
             return;

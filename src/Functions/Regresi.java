@@ -9,6 +9,7 @@ public class Regresi {
      * @return nilai y di titik x
      */
     public static String[] solveRegresi(Matrix m){
+        String[] strresult = new String[2];
         int n = m.rows;
         int k = m.cols; 
         int i, j, par;
@@ -20,7 +21,7 @@ public class Regresi {
             while(true){
                 str = JOptionPane.showInputDialog(null, "Masukkan estimasi nilai x" + (j+1) + ": ", "Regresi Linear Berganda", JOptionPane.PLAIN_MESSAGE);
                 if (str == null){
-                    Interface.user();
+                    return strresult;
                 }
                 else if (str.matches("[0-9.]*") && !str.contains(" ")){
                     break;
@@ -93,21 +94,18 @@ public class Regresi {
 
         // Print general equation
         DecimalFormat df = new DecimalFormat("####0.000000");
-        System.out.print("y = ");
+        String temp = "<html><center>";
         String equation = "y =";
         for (i = 0; i < result.length; i++){
             if (i == 0){
-                System.out.print(df.format(result[i]) + " ");
                 equation += df.format(result[i]) + " ";
             }
             else{
-                System.out.print("+ " + df.format(result[i]) + "x" + (i + 1) + " ");
-                equation += "+ " + df.format(result[i]) + "x" + (i + 1) + " ";
+                equation += "+ " + df.format(result[i]) + " x^" + (i + 1) + " ";
             }
         }
         
         // Print end result
-        System.out.print("\n");
         double approx = 0;
         String strapprox = "";
         for (i = 0; i < result.length; i++){
@@ -118,11 +116,11 @@ public class Regresi {
                 approx += result[i] * var[i - 1];
             }
         }
-        strapprox = df.format(approx);
-        System.out.println("Hasil penaksiran: " + strapprox);
+        strapprox = "Hasil penaksiran: " + df.format(approx);
+        temp += equation + "<br>" + strapprox;
+        JOptionPane.showMessageDialog(null, temp, "Hasilnya Nih :V", JOptionPane.PLAIN_MESSAGE);
 
         // Return array of string (for writing to file) 
-        String[] strresult = new String[2];
         strresult[0] = equation;
         strresult[1] = strapprox;
         return strresult;

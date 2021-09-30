@@ -1,5 +1,7 @@
 package src.Functions;
+import javax.swing.SwingConstants;
 import javax.swing.JOptionPane;
+import javax.swing.JLabel;
 import java.lang.Math;
 
 public class SPL {
@@ -166,7 +168,7 @@ public class SPL {
         
         // Create double array to put all the solution
         double[] solution = new double[M.cols - 1];
-
+        String print = "<html><center>";
         /**
          1. ASSIGN MATRIX 
          **/
@@ -240,20 +242,18 @@ public class SPL {
         }
         // Case 2 : Unique Solution
         else if (foundSol && unique) {
-            JOptionPane.showMessageDialog(null, "SPL memiliki solusi unik yang dapat dilihat pada terminal.", "Unique Solution Bruv :'v", JOptionPane.WARNING_MESSAGE);
             // 1. Find the unique solution
             solution = UniqueSPL(M);
 
             // 2. Print the solution
             for (i = 0; i < solution.length; i++) {
-                System.out.println("x" + (i + 1) + " = " + solution[i]);
+                print += "x" + (i + 1) + " = " + solution[i] + "<br>";
                 strsolution[i] = String.valueOf(solution[i]);
             }
+            JOptionPane.showMessageDialog(null, print, "Hasilnya Nih :V", JOptionPane.PLAIN_MESSAGE);
         }
         // Case 3 : Many Solution
         else if (foundSol && !unique) {
-            JOptionPane.showMessageDialog(null, "SPL memiliki solusi banyak yang dapat dilihat pada terminal.", "Many Solution Bruv :'v", JOptionPane.WARNING_MESSAGE);
-
             // Create double array
             double[] temp = new double[M.cols];
             double[] idxElementUsed = new double[M.cols-1];
@@ -306,9 +306,8 @@ public class SPL {
                 // last column
                 boolean MainElmt = false;
                 if (countOne == 1 && firstIdx != (M.cols - 1)) {
-                    System.out.print("x" + (firstIdx + 1) + " = 0");
+                    print += "x" + (firstIdx + 1) + " = 0<br>";
                     sol += "x" + (firstIdx + 1) + " = 0";
-                    System.out.println();
                     if (IdxValid(idxElementUsed, firstIdx)) {
                         idxElementUsed[firstIdx] = firstIdx;
                     }
@@ -319,7 +318,7 @@ public class SPL {
                 if (countOne > 1) {
                     // x.. = last column
                     if (countOne == 2 && temp[temp.length - 1] == 1) {
-                        System.out.println("x" + (firstIdx + 1) + " = " + Func.getElmt(M, row, temp.length - 1));
+                        print += "x" + (firstIdx + 1) + " = " + Func.getElmt(M, row, temp.length - 1) + "<br>";
                         sol += "x" + (firstIdx + 1) + " = " + Func.getElmt(M, row, temp.length - 1);
                         if (IdxValid(idxElementUsed, firstIdx)) {
                             idxElementUsed[firstIdx] = firstIdx;
@@ -331,7 +330,7 @@ public class SPL {
                         MainElmt = false;
 
                         // Column loop
-                        for (i = 0; i < temp.length; ++i) {
+                        for (i = 0; i < temp.length - 1; ++i) {
                             // Get out of the loop if temp[i] != 1
                             if (temp[i] == 0){
                                 continue;
@@ -340,7 +339,7 @@ public class SPL {
                             // Head element case
                             // Ex:  x.. = ........
                             if (i == firstIdx) {
-                                System.out.print("x" + (i + 1) + " = ");
+                                print += "x" + (i + 1) + " = ";
                                 sol += "x" + (i + 1) + " = ";
                                 if (IdxValid(idxElementUsed, firstIdx)) {
                                     idxElementUsed[firstIdx] = firstIdx;
@@ -350,11 +349,11 @@ public class SPL {
                             // Not head element but not tail
                             else if (i != firstIdx && temp[i] != 0 && MainElmt && i != M.cols - 1) {
                                 if (Func.getElmt(M, row, i) > 0) {
-                                    System.out.print(" - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1));
+                                    print += " - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1);
                                     sol += " - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1);
                                 } 
                                 else {
-                                    System.out.print(" + " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1));
+                                    print += " - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1);
                                     sol += " - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1);
                                 }
                             }
@@ -362,10 +361,10 @@ public class SPL {
                             // i = last column 
                             else if (i != firstIdx && temp[i] != 0 && MainElmt && i == M.cols - 1) {
                                 if (Func.getElmt(M, row, i) < 0) {
-                                    System.out.print(" - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))));
+                                    print += " - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1);
                                     sol += " - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1);
                                 } else {
-                                    System.out.print(" + " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))));
+                                    print += " + " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1);
                                     sol += " + " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1);
                                 }
                             }
@@ -373,19 +372,17 @@ public class SPL {
                             // Head element after "="
                             else if (!MainElmt && i != firstIdx && temp[i] != 0 && i!= M.cols-1) {
                                 if (Func.getElmt(M, row, i) > 0) {
-                                    System.out.print(" - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1));
+                                    print += " - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1);
                                     sol += " - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1);
                                 } else {
-                                    System.out.print(String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1));
+                                    print += String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1);
                                     sol += String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1);
                                 }
                                 MainElmt = true;
                             }
-
                             strsolution[i] = sol;
-
                         }
-                        System.out.println();
+                        print += "<br>";
                     }
                 }
 
@@ -395,14 +392,15 @@ public class SPL {
             // Print non head element
             for (i = 1; i<idxElementUsed.length; i++){
                 if (idxElementUsed[i]==0){
-                    System.out.println("x" + (i + 1) + " = " + getLetter(i));
+                    print += "x" + (i + 1) + " = " + getLetter(i) + "<br>";
                     sol = "x" + (i + 1) + " = " + getLetter(i);
                 }
-
                 strsolution[i] = sol;
             }
+            JLabel label = new JLabel(print);
+            label.setHorizontalAlignment(SwingConstants.CENTER);
+            JOptionPane.showMessageDialog(null, label, "Hasilnya Nih :V", JOptionPane.PLAIN_MESSAGE);
         }
-
         return strsolution;
     }
 }

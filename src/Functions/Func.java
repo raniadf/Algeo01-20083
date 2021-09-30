@@ -1,6 +1,10 @@
 package src.Functions;
-import javax.swing.JOptionPane;
 import java.text.DecimalFormat;
+
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,86 +13,58 @@ import java.io.FileReader;
 import java.lang.String;
 
 
+
 public class Func{
     /* READ-WRITE FILES & DISPLAY RESULT */
-    public static Matrix inputMatrix(String inputType){
+    public static Matrix inputMatrix(int inputType){
         int m, n;
         String strm, strn;
+        Matrix fail = new Matrix(0, 0);
 
-        if (inputType == "SPL"){
+        if (inputType == 1){
             while(true){
-                strm = JOptionPane.showInputDialog(null, "Enter number of rows: ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
-                if (strm == null){
-                    Interface.user();
-                }
-                else if (!strm.matches("[0-9]*") || strm.contains(" ")){
-                    continue;
-                }
-                strn = JOptionPane.showInputDialog(null, "Enter number of columns: ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
-                if (strn == null){
-                    Interface.user();
-                }
-                else if (!strm.matches("[0-9]*") || strm.contains(" ")){
-                    continue;
-                }
-                else{
-                    break;
-                }
+                strm = JOptionPane.showInputDialog(null, "Masukkan jumlah baris: ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
+                if (strm == null) return fail;
+                else if (!strm.matches("[0-9]*") || strm.contains(" ")) continue;
+                
+                strn = JOptionPane.showInputDialog(null, "Masukkan jumlah kolom: ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
+                if (strn == null) return fail;
+                else if (!strm.matches("[0-9]*") || strm.contains(" ")) continue;
+                else break;
             }
             m = Integer.parseInt(strm);
             n = Integer.parseInt(strn);
         }
-        else if (inputType == "Determinan" || inputType == "Invers"){
+        else if (inputType == 2 || inputType == 3){
             while(true){
-                strm = JOptionPane.showInputDialog(null, "Enter size of matrix (n x n): ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
-                if (strm == null){
-                    Interface.user();
-                }
-                else if (!strm.matches("[0-9]*") || strm.contains(" ")){
-                    continue;
-                }
-                else{
-                    break;
-                }
+                strm = JOptionPane.showInputDialog(null, "Masukkan n (ukuran matrix n x n): ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
+                if (strm == null) return fail;
+                else if (!strm.matches("[0-9]*") || strm.contains(" ")) continue;
+                else break;
             }
             m = Integer.parseInt(strm);
             n = m;
         }
-        else if (inputType == "Interpolasi"){
+        else if (inputType == 4){
             while(true){
-                strm = JOptionPane.showInputDialog(null, "Enter number of points: ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
-                if (strm == null){
-                    Interface.user();
-                }
-                else if (!strm.matches("[0-9]*") || strm.contains(" ")){
-                    continue;
-                }
-                else{
-                    break;
-                }
+                strm = JOptionPane.showInputDialog(null, "Masukkan derajat polinomial: ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
+                if (strm == null) return fail;
+                else if (!strm.matches("[0-9]*") || strm.contains(" ")) continue;
+                else break;
             }
-            m = Integer.parseInt(strm);
+            m = Integer.parseInt(strm) + 1;
             n = 2;
         }
         else{
             while(true){
-                strm = JOptionPane.showInputDialog(null, "Enter banyak data: ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
-                if (strm == null){
-                    Interface.user();
-                }
-                else if (!strm.matches("[0-9]*") || strm.contains(" ")){
-                    continue;
-                }
-                strn = JOptionPane.showInputDialog(null, "Enter banyak variabel peubah: ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
-                if (strn == null){
-                    Interface.user();
-                }
-                else if (!strm.matches("[0-9]*") || strm.contains(" ")){
-                    continue;
-                }
-                else{
-                    break;
-                }
+                strm = JOptionPane.showInputDialog(null, "Masukkan banyak data: ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
+                if (strm == null) return fail;
+                else if (!strm.matches("[0-9]*") || strm.contains(" ")) continue;
+                
+                strn = JOptionPane.showInputDialog(null, "Masukkan banyak variabel peubah: ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
+                if (strn == null) return fail;
+                else if (!strm.matches("[0-9]*") || strm.contains(" ")) continue;
+                else break;
             }
             m = Integer.parseInt(strm);
             n = Integer.parseInt(strn);
@@ -100,28 +76,32 @@ public class Func{
         for (i = 0; i < m; i++){
             for (j = 0; j < n; j++){
                 while(true){
-                    if (inputType == "Regresi"){
+                    if (inputType == 5){
                         if (j == getLastIdxCol(matrix)){
-                            str = JOptionPane.showInputDialog(null, "Data ke-" + (i+1) + "\nEnter y: ", "Input Matrix", JOptionPane.PLAIN_MESSAGE); 
+                            str = JOptionPane.showInputDialog(null, "Data ke-" + (i+1) + "\nMasukkan y: ", "Input Matrix", JOptionPane.PLAIN_MESSAGE); 
                         }
                         else{
-                            str = JOptionPane.showInputDialog(null, "Data ke-" + (i+1) + "\nEnter x" + (j+1) + ": ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
+                            str = JOptionPane.showInputDialog(null, "Data ke-" + (i+1) + "\nMasukkan x" + (j+1) + ": ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
                         }
-                        if (str == null){
-                            Interface.user();
+
+                        if (str == null) return fail;
+                        else if (str.matches("[0-9.-]*") && !str.contains(" ")) break;
+                    }
+                    else if (inputType == 4){
+                        if (j == 0){
+                            str = JOptionPane.showInputDialog(null, "Masukkan x" + j + ": ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
                         }
-                        else if (str.matches("[0-9.-]*") && !str.contains(" ")){
-                            break;
+                        else{
+                            str = JOptionPane.showInputDialog(null, "Masukkan y" + j + ": ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
                         }
+
+                        if (str == null) return fail;
+                        else if (str.matches("[0-9.-]*") && !str.contains(" ")) break;
                     }
                     else{
-                        str = JOptionPane.showInputDialog(null, "Enter elemen matrix pada posisi (" + (i+1) + ", " + (j+1) + "): ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
-                        if (str == null){
-                            Interface.user();
-                        }
-                        else if (str.matches("[0-9.-]*") && !str.contains(" ")){
-                            break;
-                        }
+                        str = JOptionPane.showInputDialog(null, "Masukkan elemen matrix pada posisi (" + (i+1) + ", " + (j+1) + "): ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
+                        if (str == null) return fail;
+                        else if (str.matches("[0-9.-]*") && !str.contains(" ")) break;
                     }
                 }
                 double elmt = Double.parseDouble(str);
@@ -132,7 +112,7 @@ public class Func{
     }
 
     public static Matrix readMatrix(){
-        String filename = JOptionPane.showInputDialog(null, "Enter filename:", "Read File", JOptionPane.PLAIN_MESSAGE);
+        String filename = JOptionPane.showInputDialog(null, "Masukkan nama file:", "Read File", JOptionPane.PLAIN_MESSAGE);
         try {
             ArrayList<String> num = new ArrayList<String>();
             int rowcount = 0, colcount = 0;
@@ -160,16 +140,15 @@ public class Func{
             return m;
         }
         catch (Exception ie) {
-            JOptionPane.showMessageDialog(null, "Oops! Seems like we couldn't read your file.", "Uh-Oh...", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Yah, filenya gabisa dibaca!", "Uh-Oh...", JOptionPane.ERROR_MESSAGE);
             //ie.printStackTrace();
             Matrix m = new Matrix(0,0);
-            Interface.user();
             return m;
         }
     }
 
     public static void writeMatrix(Matrix m){
-        String filename = JOptionPane.showInputDialog(null, "Save file name as ______.txt (fill in d'blankz)", JOptionPane.PLAIN_MESSAGE);
+        String filename = JOptionPane.showInputDialog(null, "Simpan file dengan nama ______.txt", JOptionPane.PLAIN_MESSAGE);
         DecimalFormat df = new DecimalFormat("####0.00");
         try {
             FileWriter writer = new FileWriter(".\\test\\" + filename + ".txt");
@@ -188,12 +167,12 @@ public class Func{
             writer.close();
             JOptionPane.showMessageDialog(null, "Save berhasil!", "File Saved", JOptionPane.PLAIN_MESSAGE);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "An error occured", "Uh-Oh...", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Yah, error! Maaf ya :(", "Uh-Oh...", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }
     public static void writeMatrix(String[] m){
-        String filename = JOptionPane.showInputDialog(null, "Save file name as ______.txt (fill in d'blankz)", JOptionPane.PLAIN_MESSAGE);
+        String filename = JOptionPane.showInputDialog(null, "Simpan file dengan nama ______.txt", JOptionPane.PLAIN_MESSAGE);
         try {
             FileWriter writer = new FileWriter(".\\test\\" + filename + ".txt");
             int i;
@@ -204,25 +183,29 @@ public class Func{
             writer.close();
             JOptionPane.showMessageDialog(null, "Save berhasil!", "File Saved", JOptionPane.PLAIN_MESSAGE);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "An error occured", "Uh-Oh...", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Yah, error! Maaf ya :(", "Uh-Oh...", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }
 
     public static void displayMatrix(Matrix m){
         DecimalFormat df = new DecimalFormat("####0.00");
+        String temp = "<html><center>";
         int i, j;
         for (i = 0; i <= getLastIdxRow(m); i++){
             for (j = 0; j <= getLastIdxCol(m); j++) {
                 if (j != getLastIdxCol(m)){
-                    System.out.print(df.format(getElmt(m, i, j)) + " ");
+                    temp += df.format(getElmt(m, i, j)) + " ";
                 }
                 else{
-                    System.out.print(df.format(getElmt(m, i, j)));
+                    temp += df.format(getElmt(m, i, j));
                 }
             }
-            System.out.print("\n");
+            temp += "<br>";
         }
+        JLabel label = new JLabel(temp);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        JOptionPane.showMessageDialog(null, label, "Hasilnya Nih :V", JOptionPane.PLAIN_MESSAGE);
     }
 
     /* SELEKTOR: GET & SET */
@@ -276,27 +259,6 @@ public class Func{
     }
 
     /* VALIDASI */
-    public static boolean isSizeEqual(Matrix m1, Matrix m2){
-        return ((m1.rows == m2.rows) && (m1.cols == m2.cols)); 
-    }
-
-    public static boolean isEqual(Matrix m1, Matrix m2){
-        if (!(isSizeEqual(m1, m2))){
-            return false;
-        }
-        else{
-            int i, j;
-            for (i = 0; i <= getLastIdxRow(m1); i++) {
-                for (j = 0; j <= getLastIdxCol(m1); j++) {
-                    if (getElmt(m1, i, j) != getElmt(m2, i, j)){
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-    }
-
     public static boolean isSquare(Matrix m){
         return (m.rows == m.cols);
     }
@@ -311,28 +273,6 @@ public class Func{
             }
         }
         return copy;
-    }
-    
-    public static Matrix add(Matrix m1, Matrix m2){
-        Matrix m3 = new Matrix(m1.rows, m1.cols);
-        int i, j;
-        for (i = 0; i <= getLastIdxRow(m1); i++) {
-            for (j = 0; j <= getLastIdxCol(m1); j++) {
-                setElmt(m3, i, j, (getElmt(m1, i, j) + getElmt(m2, i, j)));
-            }
-        }
-        return m3;
-    }
-
-    public static Matrix subtract(Matrix m1, Matrix m2){
-        Matrix m3 = new Matrix(m1.rows, m1.cols);
-        int i, j;
-        for (i = 0; i <= getLastIdxRow(m1); i++) {
-            for (j = 0; j <= getLastIdxCol(m1); j++) {
-                setElmt(m3, i, j, (getElmt(m1, i, j) - getElmt(m2, i, j)));
-            }
-        }
-        return m3;
     }
 
     public static Matrix multiply(Matrix m1, Matrix m2){

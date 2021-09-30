@@ -1,5 +1,7 @@
 package src.Functions;
 import java.text.DecimalFormat;
+import javax.swing.JOptionPane;
+
 import java.lang.Math;
 
 public class Interpolasi {
@@ -12,8 +14,15 @@ public class Interpolasi {
      */
     public static String[] solveInterpolasi(Matrix m, double x){
         Matrix px = new Matrix(m.rows, m.rows + 1);
+        String[] strresult = new String[2];
         double tot = 0;
         int i, j;
+
+        if (m.cols != 2){
+            JOptionPane.showMessageDialog(null, "Data kurang atau tidak valid, coba lagi!", "Uh Oh...", JOptionPane.WARNING_MESSAGE);
+            return strresult;
+        }
+
         // Membuat matrix baru berisi sistem persamaan lanjar
         for (i = 0; i <= Func.getLastIdxRow(px); i++){
             for (j = 0; j <= Func.getLastIdxCol(px); j++){
@@ -31,30 +40,27 @@ public class Interpolasi {
         // Menyelesaikan sistem persamaan dengan metode eliminasi Gauss
         px = SPL.Gauss(px);
         double[] result = SPL.UniqueSPL(px);
+
+        String temp = "<html><center>";
         DecimalFormat df = new DecimalFormat("####0.0000");
-        System.out.print("p" + Func.getLastIdxRow(m) + "(x) = ");
-        String equation = ("p" + String.valueOf(Func.getLastIdxRow(m)) + "(x) = ");
+        String equation = ("<html><center>p" + String.valueOf(Func.getLastIdxRow(m)) + "(x) = ");
         for (i = 0; i < result.length; i++){
             if (i == 0){
-                System.out.print(df.format(result[i]) + " + ");
                 equation += df.format(result[i]) + " + ";
             }
             else if (i == result.length - 1){
-                System.out.print(df.format(result[i]) + " x^" + i);
                 equation += df.format(result[i]) + " x^" + i;
             }
             else{
-                System.out.print(df.format(result[i]) + " x^" + i + " + ");
                 equation += df.format(result[i]) + " x^" + i + " + ";
             }
             tot += result[i] * Math.pow(x, i);
         }
-        System.out.println("\n");
-        String strapprox = df.format(tot);
-        System.out.println("Hasil penaksiran: " + strapprox);
+        String strapprox = "Hasil penaksiran: " + df.format(tot);
+        temp += equation + "<br>" + strapprox;
+        JOptionPane.showMessageDialog(null, temp, "Hasilnya Nih :V", JOptionPane.PLAIN_MESSAGE);
 
         // Return array of string (for writing to file) 
-        String[] strresult = new String[2];
         strresult[0] = equation;
         strresult[1] = strapprox;
         return strresult;

@@ -39,7 +39,6 @@ public class Determinant {
                     Func.getElmt(m, 0, j) *
                 cofExp(minor));
         }
-
         return det;
     }
 
@@ -68,7 +67,6 @@ public class Determinant {
         }
         
         det *= Math.pow(-1, switchCount);
-        
         return det;
     }
         /*

@@ -1,20 +1,15 @@
 package src.Functions;
+import javax.swing.SwingConstants;
 import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
+import javax.swing.JLabel;
 
 public class Invers {
-    // belom bisa dipakekkk
-    // tinggal fill in the comments aja... kalo gaada yg salah XD LOL bau2nya ada si LOL XD
     public static String[] solveSPL(Matrix m){
-        // GENERALNYA: x = A^(-1) b --> untuk matrix m * n
-        // kalo n (kolom) != m+1 (baris+1) kluarin output "dibutuhkan n persamaan untuk n variiabel (n nya pake baris/kolom)
-        // pisah A sama b
-        // inverse A
-        // A(^-1) * b
         String[] result = new String[m.rows];
+        String print = "<html><center>";
         if (m.rows != m.cols - 1){
             JOptionPane.showMessageDialog(null, "Dibutuhkan " + (m.cols - 1) + " buah persamaan untuk " + (m.cols - 1) + " buah variabel", "Try again", JOptionPane.WARNING_MESSAGE);
-            Interface.user();
             return result;
         }
         Matrix A = new Matrix(m.rows, m.cols - 1);
@@ -33,13 +28,19 @@ public class Invers {
             }
 
         A = gaussJordan(A); // Invers matriks A dengan metode adjoin
+        if (A.rows == m.rows + 1){
+            return result;
+        }
         var = Func.multiply(A, b); // Melakukan perkalian A dan b
 
         DecimalFormat df = new DecimalFormat("####0.0000");
         for (i = 0; i <= Func.getLastIdxRow(var); i++){
-                System.out.print("x" + (i+1) + " = " + df.format(Func.getElmt(var, i, 0)) + "\n");
+                print += "x" + (i+1) + " = " + df.format(Func.getElmt(var, i, 0)) + "<br>";
                 result[i] = df.format(Func.getElmt(var, i, 0));
         }
+        JLabel label = new JLabel(print);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        JOptionPane.showMessageDialog(null, label, "Hasilnya Nih :V", JOptionPane.PLAIN_MESSAGE);
         return result;
     }
 
@@ -52,8 +53,8 @@ public class Invers {
     public static Matrix adjoint(Matrix m) {
         if (Determinant.cofExp(m) == 0){
             JOptionPane.showMessageDialog(null, "Tidak memiliki solusi!", "DETERMINAN = 0", JOptionPane.WARNING_MESSAGE);
-            Interface.user();
-            return m;
+            Matrix a = new Matrix(m.rows + 1, m.cols);
+            return a;
         }
         Matrix adjointMat;
         Matrix inverseMat = new Matrix(m.rows, m.cols);
@@ -67,10 +68,6 @@ public class Invers {
                 inverseMat.contents[i][j] = (1 / det) * adjointMat.contents[i][j];
             }
         }
-
-        System.out.println("Hasil Invers:");
-        Func.displayMatrix(inverseMat);
-        System.out.println("\n");
         return inverseMat;
     }
 
@@ -82,9 +79,9 @@ public class Invers {
      */
     public static Matrix gaussJordan(Matrix m) {
         if (Determinant.cofExp(m) == 0){
-            JOptionPane.showMessageDialog(null, "Tidak memiliki solusi!", "DETERMINAN = 0", JOptionPane.WARNING_MESSAGE);
-            Interface.user();
-            return m;
+            JOptionPane.showMessageDialog(null, "Matriks tidak memiliki inverse\n \nApabila matriks merupakan SPL disarankan untuk mencoba metode Gauss-Jordan", "DETERMINAN = 0", JOptionPane.WARNING_MESSAGE);
+            Matrix a = new Matrix(m.rows + 1, m.cols);
+            return a;
         }
         Matrix inverseMat = new Matrix(m.rows, m.cols);
         Matrix temp = new Matrix(m.rows, m.cols * 2);
@@ -107,10 +104,6 @@ public class Invers {
                 inverseMat.contents[i2][j2] = temp.contents[i2][j2 + inverseMat.cols];
             }
         }
-
-        System.out.println("Hasil Invers:");
-        Func.displayMatrix(inverseMat);
-        System.out.println("\n");
         return inverseMat;
     }
 }
