@@ -234,6 +234,7 @@ public class SPL {
         }
         // Case 2 : Unique Solution
         else if (foundSol && unique) {
+            JOptionPane.showMessageDialog(null, "SPL memiliki solusi unik yang dapat dilihat pada terminal.", "Unique Solution Bruv :'v", JOptionPane.WARNING_MESSAGE);
             // 1. Find the unique solution
             solution = UniqueSPL(M);
 
@@ -244,6 +245,7 @@ public class SPL {
         }
         // Case 3 : Many Solution
         else if (foundSol && !unique) {
+            JOptionPane.showMessageDialog(null, "SPL memiliki solusi banyak yang dapat dilihat pada terminal.", "Many Solution Bruv :'v", JOptionPane.WARNING_MESSAGE);
 
             // Create double array
             double[] temp = new double[M.cols];
