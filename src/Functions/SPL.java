@@ -65,7 +65,6 @@ public class SPL {
             }
         }
 
-        M = Func.ZeroNRound(M);
         return M;
     }
 
@@ -95,8 +94,7 @@ public class SPL {
                 }
             }
         }
-
-        M = Func.ZeroNRound(M);
+        
         return M;
     }
 
@@ -177,6 +175,9 @@ public class SPL {
         } else if (SPLtype == "Gauss Jordan") {
             M = GaussJordan(M);
         }
+        
+        // Modify matrix
+        M = Func.ZeroNRound(M);
 
         /**
          2. CHECK SOLUTION TYPE
