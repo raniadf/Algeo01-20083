@@ -1,6 +1,8 @@
 package src.Functions;
 import java.lang.Math;
 
+import javax.swing.JOptionPane;
+
 public class Determinant {
 
     /** EKSPANSI KOFAKTOR
@@ -13,8 +15,8 @@ public class Determinant {
         Matrix minor = new Matrix(m.rows - 1, m.cols - 1);
 
         if (!Func.isSquare(m)) {
-            System.out.println("Determinan tidak dapat dihitung karena bukan matriks persegi.");
-            System.out.println("Gagal menghitung determinan matriks.");
+            JOptionPane.showMessageDialog(null, "Determinan tidak dapat dihitung karena bukan matriks persegi.", 
+                                            "GAGAL MENGHITUNG DETERMINAN MATRIKS", JOptionPane.WARNING_MESSAGE);
             return Double.NaN;
         }
 
@@ -54,8 +56,8 @@ public class Determinant {
         tempMat = Func.copyMatrix(m);
 
         if (!Func.isSquare(m)) {
-            System.out.println("Determinan tidak dapat dihitung karena bukan matriks persegi.");
-            System.out.println("Gagal menghitung determinan matriks.");
+            JOptionPane.showMessageDialog(null, "Determinan tidak dapat dihitung karena bukan matriks persegi.", 
+                                            "GAGAL MENGHITUNG DETERMINAN MATRIKS", JOptionPane.WARNING_MESSAGE);
             return Double.NaN;
         }
 
