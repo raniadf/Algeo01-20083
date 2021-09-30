@@ -113,6 +113,10 @@ public class Func{
 
     public static Matrix readMatrix(){
         String filename = JOptionPane.showInputDialog(null, "Masukkan nama file:", "Read File", JOptionPane.PLAIN_MESSAGE);
+        if (filename == null){
+            Matrix m = new Matrix(0, 0);
+            return m;
+        }
         try {
             ArrayList<String> num = new ArrayList<String>();
             int rowcount = 0, colcount = 0;
@@ -149,6 +153,7 @@ public class Func{
 
     public static void writeMatrix(Matrix m){
         String filename = JOptionPane.showInputDialog(null, "Simpan file dengan nama ______.txt", JOptionPane.PLAIN_MESSAGE);
+        if (filename == null) return;
         DecimalFormat df = new DecimalFormat("####0.00");
         try {
             FileWriter writer = new FileWriter(".\\test\\" + filename + ".txt");
@@ -173,6 +178,7 @@ public class Func{
     }
     public static void writeMatrix(String[] m){
         String filename = JOptionPane.showInputDialog(null, "Simpan file dengan nama ______.txt", JOptionPane.PLAIN_MESSAGE);
+        if (filename == null) return;
         try {
             FileWriter writer = new FileWriter(".\\test\\" + filename + ".txt");
             int i;
