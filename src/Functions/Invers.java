@@ -1,16 +1,17 @@
 package src.Functions;
+import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
 
 public class Invers {
     // belom bisa dipakekkk
     // tinggal fill in the comments aja... kalo gaada yg salah XD LOL bau2nya ada si LOL XD
-    public static double[] solveSPL(Matrix m){
+    public static String[] solveSPL(Matrix m){
         // GENERALNYA: x = A^(-1) b --> untuk matrix m * n
         // kalo n (kolom) != m+1 (baris+1) kluarin output "dibutuhkan n persamaan untuk n variiabel (n nya pake baris/kolom)
         // pisah A sama b
         // inverse A
         // A(^-1) * b
-        double[] result = new double [m.rows];
+        String[] result = new String[m.rows];
         if (m.rows != m.cols - 1){
             JOptionPane.showMessageDialog(null, "Dibutuhkan " + (m.cols - 1) + " buah persamaan untuk " + (m.cols - 1) + " buah variabel", "Try again", JOptionPane.WARNING_MESSAGE);
             Interface.user();
@@ -32,11 +33,12 @@ public class Invers {
             }
 
         A = gaussJordan(A); // Invers matriks A dengan metode adjoin
-        var = Func.multiply(A, b);
+        var = Func.multiply(A, b); // Melakukan perkalian A dan b
 
+        DecimalFormat df = new DecimalFormat("####0.0000");
         for (i = 0; i <= Func.getLastIdxRow(var); i++){
-                System.out.print("x" + (i+1) + " = " + Func.getElmt(var, i, 0) + "\n");
-                result[i] = Func.getElmt(var, i, 0);
+                System.out.print("x" + (i+1) + " = " + df.format(Func.getElmt(var, i, 0)) + "\n");
+                result[i] = df.format(Func.getElmt(var, i, 0));
         }
         return result;
     }

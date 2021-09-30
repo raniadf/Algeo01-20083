@@ -48,7 +48,6 @@ public class Interface {
 
         String[] resultApprox = new String[2];
         double resultDet = 0;
-        double[] resultSPL;
 
         switch (option){
         case 1:
@@ -63,24 +62,19 @@ public class Interface {
             }
             switch (optionSPL){
             case 1:
-                resultSPL = SPL.SolveSPL(m, "Gauss");
+                resultApprox = SPL.SolveSPL(m, "Gauss");
                 break;
             case 2:
-                resultSPL = SPL.SolveSPL(m, "Gauss Jordan");
+                resultApprox = SPL.SolveSPL(m, "Gauss Jordan");
                 break;
             case 3:
-                resultSPL = Invers.solveSPL(m);// NANTI GANTI jadi result = Invers.solveSPL(m); 
+                resultApprox = Invers.solveSPL(m);// NANTI GANTI jadi result = Invers.solveSPL(m); 
                 break;
             case 4:
-                resultSPL = Cramer.solveSPL(m);
+                resultApprox = Cramer.solveSPL(m);
                 break;
             default:
-                resultSPL = Cramer.solveSPL(m); // ini cm biar initialized aja 
-            }
-            m = new Matrix(resultSPL.length, 1);
-            int i;
-            for (i = 0; i < resultSPL.length; i++){
-                Func.setElmt(m, i, 0, resultSPL[i]);
+                resultApprox = Cramer.solveSPL(m); // ini cm biar initialized aja 
             }
             break;
 
@@ -147,7 +141,7 @@ public class Interface {
         int save = JOptionPane.YES_NO_OPTION;
         save = JOptionPane.showConfirmDialog(null, "Mau disave jadi file .txt ga hasilnya?", "Save File", save);
         if (save == JOptionPane.YES_OPTION){
-            if (option == 4 || option == 5){
+            if (option == 1|| option == 4 || option == 5){
                 Func.writeMatrix(resultApprox);
             }
             else{

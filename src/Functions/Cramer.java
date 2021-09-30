@@ -8,8 +8,8 @@ public class Cramer {
      * @param m matriks yang ingin dicari solusinya
      * @return array of double berisi solusi
      */
-    public static double[] solveSPL(Matrix m){
-        double[] store = new double[m.cols - 1];
+    public static String[] solveSPL(Matrix m){
+        String[] store = new String[m.cols - 1];
         if (m.rows != m.cols - 1){
             JOptionPane.showMessageDialog(null, "Dibutuhkan " + (m.cols - 1) + " buah persamaan linier untuk " + (m.cols - 1) + " peubah", "Uh Oh...", JOptionPane.WARNING_MESSAGE);
             Interface.user();
@@ -46,7 +46,7 @@ public class Cramer {
             double detAi = Determinant.cofExp(Ai);
             DecimalFormat df = new DecimalFormat("####0.00");
             System.out.print("x" + (j+1) + " = " + df.format(detAi/detA) + "\n");
-            store[j] = detAi/detA;
+            store[j] = df.format(detAi/detA);
         }
         return store;
     }
