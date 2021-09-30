@@ -424,7 +424,7 @@ public class Gaussian {
 
             // Print non head element
             for (i = 0; i<idxElementUsed.length; i++){
-                if (idxElementUsed[i]==0){
+                if (idxElementUsed[i]==0 && StrValid(strManySol, i))){
                     print += "x" + (i + 1) + " = " + getLetter(letter) + "<br>";
                     sol = "x" + (i + 1) + " = " + getLetter(letter);
                     letter++;
