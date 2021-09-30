@@ -233,6 +233,9 @@ public class SPL {
         if (!foundSol) {
             JOptionPane.showMessageDialog(null, "SPL tidak memiliki solusi.", "X Solution Bruv :'v", JOptionPane.WARNING_MESSAGE);
             strsolution[0] = "SPL tidak memiliki solusi";
+            for (i=1; i<strsolution.length ; ++i){
+                strsolution[i] = "";
+            }
         }
         // Case 2 : Unique Solution
         else if (foundSol && unique) {
