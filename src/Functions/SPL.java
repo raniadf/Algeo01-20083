@@ -1,5 +1,4 @@
 package src.Functions;
-
 import javax.swing.JOptionPane;
 import java.lang.Math;
 
@@ -147,84 +146,90 @@ public class SPL {
         return solution;
     }
 
+    // Return character for parametric solution
     public static char getLetter(int i) {
         return (char) (i + 64);
     }
 
+    // return valid if idx is not a part of a double array
     public static boolean IdxValid(double[] checkIdx, int idx) {
-        boolean valid = false;
-        for (int i = 0; i < checkIdx.length; ++i) {
-            if (checkIdx[i] != 0) {
-                valid = false;
-            } else if (checkIdx[i] == idx) {
-                valid = false;
-            } else
-                valid = true;
+        boolean valid = true;
+
+        // if idx is already stored, valid = false
+        if (checkIdx[idx] == idx){
+            valid = false;
         }
+
         return valid;
     }
 
     // Solve SPL
     public static double[] SolveSPL(Matrix M, String SPLtype) {
-
+        
+        // Create double array to put all the solution
         double[] solution = new double[M.cols - 1];
-        // ASSIGN MATRIX
+
+        /**
+         1. ASSIGN MATRIX 
+         **/
         if (SPLtype == "Gauss") {
             M = Gauss(M);
         } else if (SPLtype == "Gauss Jordan") {
             M = GaussJordan(M);
         }
 
-        // CHECK SOLUTION TYPE
+        /**
+         2. CHECK SOLUTION TYPE
+         **/
+        // Set parameter
         boolean foundSol = false;
         boolean unique = false;
+        boolean foundOne = true;
+
+        // Create int for index
         int i, j;
 
-        // Check the last row
-        // Case 1 : last element != 0
-        // 1. No Solution
-        // [1 2 1 2] [1]
-        // [0 1 1 2] [0]
-        // [0 0 0 2] [-1]
+        // Row loops 
+        for (i=0; i<M.rows; i++){
 
-        // 2. Unique Solution
-        // 1 1 1 0
-        // 0 1 -1 1
-        // 0 0 1 1
-        if (Func.getElmt(M, M.rows - 1, M.cols - 1) != 0) {
-            j = M.cols - 2;
-            while (!foundSol && j >= 0) {
-                // Case 1.2
-                if (Func.getElmt(M, M.rows - 1, j) != 0) {
-                    unique = true;
-                    foundSol = true;
-                }
-                // Case 1.1 = always 0 and always !foundSol
-                --j;
+            // Case : No Solution
+            // findLeadingOne in the last column
+            // Ex : 0 0 0 0 1 -> 0x1 + 0x2 + 0x3 + 0x4 = 1 -> RJC
+            if (Func.findLeadingOne(M, i) == (M.cols-1)){
+                foundSol = false;
+                unique = false;
+                foundOne = false;
+                break;
             }
-        }
 
-        // Case 2 : last element == 0
-        // 3. Many Solution
-        // 1 2 1 1
-        // 0 1 1 2
-        // 0 0 0 0
-        if (Func.getElmt(M, M.rows - 1, M.cols - 1) == 0) {
-            for (j = M.cols - 1; j >= 0; --j) {
-                if (Func.getElmt(M, M.rows - 1, j) != 0) {
-                    break;
-                } else {
-                    foundSol = true;
-                    unique = false;
+            // Case : Solution Available
+            for (j=0; j<M.cols; j++){
+                foundSol = true;
+                // If all main diagonal elements (except the last column) == 1 -> unique solution
+                if (i==j && j!=M.cols-1){
+                    // Break the loop if 0 is found
+                    if (Func.getElmt(M,i,j)!=1){
+                        foundOne = false;
+                    }
                 }
             }
         }
 
-        // PRINT SOLUTION
+        // Case : Unique solution
+        if (foundOne){
+            unique = true;
+        } 
+        // Case : Many solution
+        else if (!foundOne && foundSol){
+            unique = false;
+        }
+
+        /**
+         3. PRINT & FIND SOLUTION 
+         **/
         // Case 1 : No Solution
         if (!foundSol) {
-            JOptionPane.showMessageDialog(null, "SPL tidak memiliki solusi.", "X Solution Bruv :'v",
-                    JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "SPL tidak memiliki solusi.", "X Solution Bruv :'v", JOptionPane.WARNING_MESSAGE);
             solution = null;
         }
         // Case 2 : Unique Solution
@@ -244,9 +249,11 @@ public class SPL {
             double[] temp = new double[M.cols];
             double[] idxElementUsed = new double[M.cols-1];
 
+            // Store 0 for the double array
             for (i = 0; i < M.cols - 1; ++i) {
                 idxElementUsed[i] = 0;
             }
+
             // Set index row to 0
             int row = 0;
 
@@ -307,28 +314,36 @@ public class SPL {
                     }
 
                     else {
+                        // Set main element to false
                         MainElmt = false;
 
+                        // Column loop
                         for (i = 0; i < temp.length; ++i) {
+                            // Get out of the loop if temp[i] != 1
                             if (temp[i] == 0){
                                 continue;
                             }
 
+                            // Head element case
+                            // Ex:  x.. = ........
                             if (i == firstIdx) {
                                 System.out.print("x" + (i + 1) + " = ");
                                 if (IdxValid(idxElementUsed, firstIdx)) {
                                     idxElementUsed[firstIdx] = firstIdx;
                                 }
                             }
-
+                            
+                            // Not head element but not tail
                             else if (i != firstIdx && temp[i] != 0 && MainElmt && i != M.cols - 1) {
                                 if (Func.getElmt(M, row, i) > 0) {
                                     System.out.print(" - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1));
-                                } else {
+                                } 
+                                else {
                                     System.out.print(" + " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1));
                                 }
                             }
 
+                            // i = last column 
                             else if (i != firstIdx && temp[i] != 0 && MainElmt && i == M.cols - 1) {
                                 if (Func.getElmt(M, row, i) < 0) {
                                     System.out.print(" - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))));
@@ -337,6 +352,7 @@ public class SPL {
                                 }
                             }
 
+                            // Head element after "="
                             else if (!MainElmt && i != firstIdx && temp[i] != 0 && i!= M.cols-1) {
                                 if (Func.getElmt(M, row, i) > 0) {
                                     System.out.print(" - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1));
@@ -354,6 +370,7 @@ public class SPL {
                 ++row;
             }
 
+            // Print non head element
             for (i = 1; i<idxElementUsed.length; i++){
                 if (idxElementUsed[i]==0){
                     System.out.println("x" + (i + 1) + " = " + getLetter(i));
