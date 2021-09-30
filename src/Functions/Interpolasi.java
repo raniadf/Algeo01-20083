@@ -38,8 +38,8 @@ public class Interpolasi {
             }
         }
         // Menyelesaikan sistem persamaan dengan metode eliminasi Gauss
-        px = SPL.Gauss(px);
-        double[] result = SPL.UniqueSPL(px);
+        px = Gaussian.Gauss(px);
+        double[] result = Gaussian.UniqueSPL(px);
 
         String temp = "<html><center>";
         DecimalFormat df = new DecimalFormat("####0.0000");

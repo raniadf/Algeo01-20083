@@ -1,11 +1,11 @@
 package src;
-import src.Functions.Interface;
+import src.Functions.Menu;
 
 public class Main {
   // masih testing aja ges :V
   public static void main(String[] args) {
     while(true){
-      Interface.user();
+      Menu.user();
     }
   }
 }

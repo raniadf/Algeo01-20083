@@ -4,7 +4,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import java.lang.Math;
 
-public class SPL {
+public class Gaussian {
 
     // Gauss elimination -> Output : Matrix
     public static Matrix Gauss(Matrix M) {
@@ -355,19 +355,19 @@ public class SPL {
                                     sol += " - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1);
                                 } 
                                 else {
-                                    print += " - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1);
-                                    sol += " - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1);
+                                    print += " + " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1);
+                                    sol += " + " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1);
                                 }
                             }
 
                             // i = last column 
                             else if (i != firstIdx && temp[i] != 0 && MainElmt && i == M.cols - 1) {
                                 if (Func.getElmt(M, row, i) < 0) {
-                                    print += " - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1);
-                                    sol += " - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1);
+                                    print += " - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i)));
+                                    sol += " - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i)));
                                 } else {
-                                    print += " + " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1);
-                                    sol += " + " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1);
+                                    print += " + " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i)));
+                                    sol += " + " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i)));
                                 }
                             }
 

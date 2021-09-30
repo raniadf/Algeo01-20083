@@ -89,8 +89,8 @@ public class Regresi {
 
         // Menyimpan hasil Eliminasi Gauss pada matrix ab dalam array double
         double result[] = new double[ab.cols];
-        ab = SPL.Gauss(ab);
-        result = SPL.UniqueSPL(ab);
+        ab = Gaussian.Gauss(ab);
+        result = Gaussian.UniqueSPL(ab);
 
         // Print general equation
         DecimalFormat df = new DecimalFormat("####0.000000");

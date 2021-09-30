@@ -98,7 +98,7 @@ public class Invers {
         }
 
         int i2, j2;
-        m = SPL.GaussJordan(temp);
+        m = Gaussian.GaussJordan(temp);
         for (i2 = 0; i2 < inverseMat.rows; i2++) {
             for (j2 = 0; j2 < inverseMat.cols; j2++) {
                 inverseMat.contents[i2][j2] = temp.contents[i2][j2 + inverseMat.cols];

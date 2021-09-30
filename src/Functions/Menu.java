@@ -1,7 +1,7 @@
 package src.Functions;
 import javax.swing.*;
 
-public class Interface {
+public class Menu {
     public static void user(){
         String opt = "0";
         int option = Integer.parseInt(opt);
@@ -40,10 +40,10 @@ public class Interface {
             if (opt2 == null) return;
             switch (option2){
             case 1:
-                resultApprox = SPL.SolveSPL(m, "Gauss");
+                resultApprox = Gaussian.SolveSPL(m, "Gauss");
                 break;
             case 2:
-                resultApprox = SPL.SolveSPL(m, "Gauss Jordan");
+                resultApprox = Gaussian.SolveSPL(m, "Gauss Jordan");
                 break;
             case 3:
                 resultApprox = Invers.solveSPL(m);
