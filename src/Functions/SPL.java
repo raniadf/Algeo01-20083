@@ -164,7 +164,7 @@ public class SPL {
     }
 
     // Solve SPL
-    public static double[] SolveSPL(Matrix M, String SPLtype) {
+    public static String[] SolveSPL(Matrix M, String SPLtype) {
         
         // Create double array to put all the solution
         double[] solution = new double[M.cols - 1];
@@ -227,10 +227,12 @@ public class SPL {
         /**
          3. PRINT & FIND SOLUTION 
          **/
+        String[] strsolution = new String[M.cols-1];
+        
         // Case 1 : No Solution
         if (!foundSol) {
             JOptionPane.showMessageDialog(null, "SPL tidak memiliki solusi.", "X Solution Bruv :'v", JOptionPane.WARNING_MESSAGE);
-            solution = null;
+            strsolution[0] = "SPL tidak memiliki solusi";
         }
         // Case 2 : Unique Solution
         else if (foundSol && unique) {
@@ -241,6 +243,7 @@ public class SPL {
             // 2. Print the solution
             for (i = 0; i < solution.length; i++) {
                 System.out.println("x" + (i + 1) + " = " + solution[i]);
+                strsolution[i] = String.valueOf(solution[i]);
             }
         }
         // Case 3 : Many Solution
@@ -250,6 +253,7 @@ public class SPL {
             // Create double array
             double[] temp = new double[M.cols];
             double[] idxElementUsed = new double[M.cols-1];
+            String sol = "";
 
             // Store 0 for the double array
             for (i = 0; i < M.cols - 1; ++i) {
@@ -299,10 +303,12 @@ public class SPL {
                 boolean MainElmt = false;
                 if (countOne == 1 && firstIdx != (M.cols - 1)) {
                     System.out.print("x" + (firstIdx + 1) + " = 0");
+                    sol += "x" + (firstIdx + 1) + " = 0";
                     System.out.println();
                     if (IdxValid(idxElementUsed, firstIdx)) {
                         idxElementUsed[firstIdx] = firstIdx;
                     }
+                    strsolution[firstIdx] = sol;
                 }
 
                 // Other case
@@ -310,6 +316,7 @@ public class SPL {
                     // x.. = last column
                     if (countOne == 2 && temp[temp.length - 1] == 1) {
                         System.out.println("x" + (firstIdx + 1) + " = " + Func.getElmt(M, row, temp.length - 1));
+                        sol += "x" + (firstIdx + 1) + " = " + Func.getElmt(M, row, temp.length - 1);
                         if (IdxValid(idxElementUsed, firstIdx)) {
                             idxElementUsed[firstIdx] = firstIdx;
                         }
@@ -330,6 +337,7 @@ public class SPL {
                             // Ex:  x.. = ........
                             if (i == firstIdx) {
                                 System.out.print("x" + (i + 1) + " = ");
+                                sol += "x" + (i + 1) + " = ";
                                 if (IdxValid(idxElementUsed, firstIdx)) {
                                     idxElementUsed[firstIdx] = firstIdx;
                                 }
@@ -339,9 +347,11 @@ public class SPL {
                             else if (i != firstIdx && temp[i] != 0 && MainElmt && i != M.cols - 1) {
                                 if (Func.getElmt(M, row, i) > 0) {
                                     System.out.print(" - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1));
+                                    sol += " - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1);
                                 } 
                                 else {
                                     System.out.print(" + " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1));
+                                    sol += " - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1);
                                 }
                             }
 
@@ -349,8 +359,10 @@ public class SPL {
                             else if (i != firstIdx && temp[i] != 0 && MainElmt && i == M.cols - 1) {
                                 if (Func.getElmt(M, row, i) < 0) {
                                     System.out.print(" - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))));
+                                    sol += " - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1);
                                 } else {
                                     System.out.print(" + " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))));
+                                    sol += " + " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1);
                                 }
                             }
 
@@ -358,11 +370,15 @@ public class SPL {
                             else if (!MainElmt && i != firstIdx && temp[i] != 0 && i!= M.cols-1) {
                                 if (Func.getElmt(M, row, i) > 0) {
                                     System.out.print(" - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1));
+                                    sol += " - " + String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1);
                                 } else {
                                     System.out.print(String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1));
+                                    sol += String.format("%.3f", Math.abs(Func.getElmt(M, row, i))) + "x" + (i + 1);
                                 }
                                 MainElmt = true;
                             }
+
+                            strsolution[i] = sol;
 
                         }
                         System.out.println();
@@ -376,12 +392,13 @@ public class SPL {
             for (i = 1; i<idxElementUsed.length; i++){
                 if (idxElementUsed[i]==0){
                     System.out.println("x" + (i + 1) + " = " + getLetter(i));
+                    sol = "x" + (i + 1) + " = " + getLetter(i);
                 }
-            }
 
-            solution = null;
+                strsolution[i] = sol;
+            }
         }
 
-        return solution;
+        return strsolution;
     }
 }
