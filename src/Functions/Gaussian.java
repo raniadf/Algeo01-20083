@@ -245,8 +245,10 @@ public class Gaussian {
 
             // 2. Print the solution
             for (i = 0; i < solution.length; i++) {
+                String solniq = "";
                 print += "x" + (i + 1) + " = " + solution[i] + "<br>";
-                strUniqueSol[i] = String.valueOf(solution[i]);
+                solniq =  "x" + (i + 1) + " = " + solution[i];
+                strUniqueSol[i] = solniq;
             }
             JOptionPane.showMessageDialog(null, print, "Hasilnya Nih :V", JOptionPane.PLAIN_MESSAGE);
             return strUniqueSol;
