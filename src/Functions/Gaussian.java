@@ -162,6 +162,18 @@ public class Gaussian {
 
         return valid;
     }
+    
+    // return valid if idx is not a part of a string array
+    public static boolean StrValid(String[] checkStr, int idx) {
+        boolean valid = true;
+
+        // if idx is already stored, valid = false
+        if (checkStr[idx] != ""){
+            valid = false;
+        }
+
+        return valid;
+    }
 
     // Solve SPL
     public static String[] SolveSPL(Matrix M, String SPLtype) {
@@ -258,8 +270,14 @@ public class Gaussian {
             // Create double array
             double[] temp = new double[M.cols];
             double[] idxElementUsed = new double[M.cols-1];
+            
+            // Create & fill string and string array
             String sol = "";
             String[] strManySol = new String[M.cols-1];
+            
+            for (i = 0; i < strManySol.length; i++){
+                strManySol[i] = "";
+            }
 
             // Store 0 for the double array
             for (i = 0; i < M.cols - 1; ++i) {
@@ -308,28 +326,36 @@ public class Gaussian {
                 // last column
                 boolean MainElmt = false;
                 if (countOne == 1 && firstIdx != (M.cols - 1)) {
-                    print += "x" + (firstIdx + 1) + " = 0<br>";
-                    sol += "x" + (firstIdx + 1) + " = 0";
+                    print = "x" + (firstIdx + 1) + " = 0<br>";
+                    sol = "x" + (firstIdx + 1) + " = 0";
                     if (IdxValid(idxElementUsed, firstIdx)) {
                         idxElementUsed[firstIdx] = firstIdx;
                     }
-                    strManySol[firstIdx] = sol;
+                    
+                    if (StrValid(strManySol, firstIdx)){
+                        strManySol[firstIdx] = sol;
+                    }
                 }
 
                 // Other case
                 if (countOne > 1) {
                     // x.. = last column
                     if (countOne == 2 && temp[temp.length - 1] == 1) {
-                        print += "x" + (firstIdx + 1) + " = " + Func.getElmt(M, row, temp.length - 1) + "<br>";
-                        sol += "x" + (firstIdx + 1) + " = " + Func.getElmt(M, row, temp.length - 1);
+                        print = "x" + (firstIdx + 1) + " = " + Func.getElmt(M, row, temp.length - 1) + "<br>";
+                        sol = "x" + (firstIdx + 1) + " = " + Func.getElmt(M, row, temp.length - 1);
                         if (IdxValid(idxElementUsed, firstIdx)) {
                             idxElementUsed[firstIdx] = firstIdx;
+                        }
+                        
+                        if (StrValid(strManySol, firstIdx)){
+                            strManySol[firstIdx] = sol;
                         }
                     }
 
                     else {
                         // Set main element to false
                         MainElmt = false;
+                        sol = "";
 
                         // Column loop
                         for (i = 0; i < temp.length - 1; ++i) {
@@ -383,10 +409,9 @@ public class Gaussian {
                                 MainElmt = true;
                             }
                             
-                            if (i != temp.length -1){
-                                strManySol[i] = sol;
+                            if (StrValid(strManySol, firstIdx)){
+                                strManySol[firstIdx] = sol;
                             }
-
                         }
                         print += "<br>";
                     }
@@ -401,7 +426,10 @@ public class Gaussian {
                     print += "x" + (i + 1) + " = " + getLetter(i) + "<br>";
                     sol = "x" + (i + 1) + " = " + getLetter(i);
                 }
-                strManySol[i] = sol;
+                
+                if (StrValid(strManySol, i)){
+                    strManySol[i] = sol;
+                }
             }
             JLabel label = new JLabel(print);
             label.setHorizontalAlignment(SwingConstants.CENTER);
