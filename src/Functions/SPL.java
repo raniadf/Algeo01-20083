@@ -230,34 +230,36 @@ public class SPL {
         /**
          3. PRINT & FIND SOLUTION 
          **/
-        String[] strsolution = new String[M.cols-1];
         
         // Case 1 : No Solution
         if (!foundSol) {
+            String[] strNoSolution = new String[1];
             JOptionPane.showMessageDialog(null, "SPL tidak memiliki solusi.", "X Solution Bruv :'v", JOptionPane.WARNING_MESSAGE);
-            strsolution[0] = "SPL tidak memiliki solusi";
-            for (i=1; i<strsolution.length ; ++i){
-                strsolution[i] = "";
-            }
+            strNoSolution[0] = "SPL tidak memiliki solusi";
+            
+            return strNoSolution;
         }
         // Case 2 : Unique Solution
         else if (foundSol && unique) {
             // 1. Find the unique solution
             solution = UniqueSPL(M);
+            String[] strUniqueSol = new String[M.cols-1];
 
             // 2. Print the solution
             for (i = 0; i < solution.length; i++) {
                 print += "x" + (i + 1) + " = " + solution[i] + "<br>";
-                strsolution[i] = String.valueOf(solution[i]);
+                strUniqueSol[i] = String.valueOf(solution[i]);
             }
             JOptionPane.showMessageDialog(null, print, "Hasilnya Nih :V", JOptionPane.PLAIN_MESSAGE);
+            return strUniqueSol;
         }
         // Case 3 : Many Solution
-        else if (foundSol && !unique) {
+        else {
             // Create double array
             double[] temp = new double[M.cols];
             double[] idxElementUsed = new double[M.cols-1];
             String sol = "";
+            String[] strManySol = new String[M.cols-1];
 
             // Store 0 for the double array
             for (i = 0; i < M.cols - 1; ++i) {
@@ -311,7 +313,7 @@ public class SPL {
                     if (IdxValid(idxElementUsed, firstIdx)) {
                         idxElementUsed[firstIdx] = firstIdx;
                     }
-                    strsolution[firstIdx] = sol;
+                    strManySol[firstIdx] = sol;
                 }
 
                 // Other case
@@ -380,7 +382,11 @@ public class SPL {
                                 }
                                 MainElmt = true;
                             }
-                            strsolution[i] = sol;
+                            
+                            if (i != temp.length -1){
+                                strManySol[i] = sol;
+                            }
+
                         }
                         print += "<br>";
                     }
@@ -395,12 +401,12 @@ public class SPL {
                     print += "x" + (i + 1) + " = " + getLetter(i) + "<br>";
                     sol = "x" + (i + 1) + " = " + getLetter(i);
                 }
-                strsolution[i] = sol;
+                strManySol[i] = sol;
             }
             JLabel label = new JLabel(print);
             label.setHorizontalAlignment(SwingConstants.CENTER);
             JOptionPane.showMessageDialog(null, label, "Hasilnya Nih :V", JOptionPane.PLAIN_MESSAGE);
+            return strManySol;
         }
-        return strsolution;
     }
 }
