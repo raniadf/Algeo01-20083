@@ -1,4 +1,4 @@
-package src.Functions;
+package Functions;
 import javax.swing.*;
 
 public class Menu {

@@ -1,18 +1,14 @@
-package src.Functions;
+package Functions;
 import java.text.DecimalFormat;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.lang.String;
-
-
 
 public class Func{
     /* ===== READ-WRITE FILES & DISPLAY RESULT ===== */

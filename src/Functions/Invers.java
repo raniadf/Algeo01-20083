@@ -1,4 +1,4 @@
-package src.Functions;
+package Functions;
 import javax.swing.SwingConstants;
 import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
