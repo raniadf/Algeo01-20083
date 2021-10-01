@@ -21,12 +21,12 @@ Terdapat beberapa fitur yang dapat digunakan pada kalkulator kami, antara lain:
 4. Menaksir nilai dari suatu interpolasi polinom
 5. Menyelesaikan permasalahan regresi linear berganda dengan memanfaatkan metode Gauss dan normal estimation equation for multiple linear regression.
 
-*Serius amat? Y iy, org ini tubes elah ~,~*
+*Serius amat? Y iy, org ini tubes elah >:((*
 
 ## How to Use
 
-Pergi ke directory yang ingin ditambahkan cloned repository pada terminal kemudian lakukan langkah berikut untuk clone repository dan menjalankan program
+Sok, jalan-jalan alias pergi ke directory yang ingin ditambahkan cloned repository pada terminal, kemudian lakukan langkah berikut untuk clone repository dan menjalankan program!
 
-    git clone https://github.com/reymyr/Algeo01-19039.git
+    git clone https://github.com/raniadf/Algeo01-20083.git
     cd Algeo01-20083/bin
     java Main
