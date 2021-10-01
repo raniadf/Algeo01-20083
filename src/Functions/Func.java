@@ -125,7 +125,7 @@ public class Func{
         try {
             ArrayList<String> num = new ArrayList<String>();
             int rowcount = 0, colcount = 0;
-            String filePath = ".\\test\\" + filename + ".txt";
+            String filePath = ".\\..\\test\\" + filename + ".txt";
             BufferedReader br = new BufferedReader(new FileReader(filePath));
             String rl = br.readLine();
             while (rl != null){
@@ -165,7 +165,7 @@ public class Func{
         if (filename == null) return;
         DecimalFormat df = new DecimalFormat("####0.00");
         try {
-            FileWriter writer = new FileWriter(".\\test\\" + filename + ".txt");
+            FileWriter writer = new FileWriter(".\\..\\test\\" + filename + ".txt");
             int i, j;
             for (i = 0; i <= getLastIdxRow(m); i++){
                 for (j = 0; j <= getLastIdxCol(m); j++) {
@@ -189,7 +189,7 @@ public class Func{
         String filename = JOptionPane.showInputDialog(null, "Simpan file dengan nama ______.txt", JOptionPane.PLAIN_MESSAGE);
         if (filename == null) return;
         try {
-            FileWriter writer = new FileWriter(".\\test\\" + filename + ".txt");
+            FileWriter writer = new FileWriter(".\\..\\test\\" + filename + ".txt");
             int i;
             for (i = 0; i < m.length; i++){
                 writer.write(m[i]);
