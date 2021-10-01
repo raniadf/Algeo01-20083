@@ -90,10 +90,10 @@ public class Func{
                     }
                     else if (inputType == 4){
                         if (j == 0){
-                            str = JOptionPane.showInputDialog(null, "Masukkan x" + j + ": ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
+                            str = JOptionPane.showInputDialog(null, "Masukkan x" + i + ": ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
                         }
                         else{
-                            str = JOptionPane.showInputDialog(null, "Masukkan y" + j + ": ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
+                            str = JOptionPane.showInputDialog(null, "Masukkan y" + i + ": ", "Input Matrix", JOptionPane.PLAIN_MESSAGE);
                         }
 
                         if (str == null) return fail;
